@@ -7,8 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ContentLayout } from "@/components/ContentLayout";
-import Link from "next/link";
 import { DataTableDemo } from "@/components/DataTable";
 import {
   Card,
@@ -29,7 +27,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const GelirlerPage = () => {
+import { ContentLayout } from '@/components/ContentLayout';
+import Link from 'next/link';
+import { getAuthSession } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+
+const GelirlerPage = async () => {
+  const session = await getAuthSession()
+  if (!session) {
+    return redirect('/login')
+  }
+  
   return (
     <ContentLayout title="Firma">
       <Breadcrumb>

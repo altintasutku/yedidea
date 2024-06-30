@@ -1,7 +1,15 @@
 import LoginForm from '@/components/Auth/LoginForm'
+import { getAuthSession } from '@/lib/auth'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
-const LoginPage = () => {
+const LoginPage = async () => {
+
+  const session = await getAuthSession()
+  if (session) {
+    redirect('/dashboard')
+  }
+
   return (
     <main className='h-screen w-screen grid md:grid-cols-2 lg:grid-cols-3 bg-gradient-to-tr from-[#0B2B7D] to-70% to-[#020817] text-white'>
       <div className='grid'>

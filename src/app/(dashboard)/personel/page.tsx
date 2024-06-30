@@ -9,8 +9,16 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ContentLayout } from '@/components/ContentLayout';
 import Link from 'next/link';
+import { getAuthSession } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
-const PersonelPage = () => {
+const PersonelPage = async () => {
+
+  const session = await getAuthSession()
+  if (!session) {
+    return redirect('/login')
+  }
+
   return (
     <ContentLayout title="Personel">
       <Breadcrumb>
@@ -26,7 +34,7 @@ const PersonelPage = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      
+
       <div className='bg-background/60 mt-4 p-4 rounded-md'>
         Personel content
       </div>

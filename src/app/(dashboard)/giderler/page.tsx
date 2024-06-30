@@ -28,8 +28,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getAuthSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-const GiderlerPage = () => {
+const GiderlerPage = async () => {
+  const session = await getAuthSession()
+  if (!session) {
+    return redirect('/login')
+  }
   return (
     <ContentLayout title="Firma">
       <Breadcrumb>

@@ -21,8 +21,14 @@ import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableDemo } from "@/components/DataTable";
+import { getAuthSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-const FirmaPage = () => {
+const FirmaPage = async () => {
+  const session = await getAuthSession()
+  if (!session) {
+    return redirect('/login')
+  }
   return (
     <ContentLayout title="Firma">
       <Breadcrumb>
