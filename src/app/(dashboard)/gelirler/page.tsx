@@ -9,8 +9,15 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ContentLayout } from '@/components/ContentLayout';
 import Link from 'next/link';
+import { getAuthSession } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
-const GelirlerPage = () => {
+const GelirlerPage = async () => {
+  const session = await getAuthSession()
+  if (!session) {
+    return redirect('/login')
+  }
+
   return (
     <ContentLayout title="Gelirler">
       <Breadcrumb>
@@ -26,7 +33,7 @@ const GelirlerPage = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      
+
       <div className='bg-background/60 mt-4 p-4 rounded-md'>
         Gelirler content
       </div>

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -36,7 +37,10 @@ const LoginForm = () => {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        router.push("/dashboard");
+        signIn("credentials", {
+            email: values.email,
+            password: values.password
+        })
     }
     return (
         <Form {...form}>
