@@ -7,8 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ContentLayout } from "@/components/ContentLayout";
-import Link from "next/link";
 import { DataTableDemo } from "@/components/DataTable";
 import {
   Card,
