@@ -5,6 +5,8 @@ import { db } from "./db";
 import { userTable } from "./schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import { env } from "@/env";
+import bcrypt from "bcryptjs"
 
 declare module "next-auth" {
   interface User {
@@ -46,6 +48,10 @@ export const authOptions: AuthOptions = {
             .from(userTable)
             .where(eq(userTable.email, credentials!.email));
           if (!user) return null;
+
+          if(!(await bcrypt.compare(credentials!.password, user[0].password))){
+            return null;
+          }
 
           return user[0];
         } catch (error) {
