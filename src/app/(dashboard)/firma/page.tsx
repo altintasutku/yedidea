@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { DataTableDemo } from "@/components/DataTable";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import FirmaForm from "@/components/FirmaForm";
 
 const FirmaPage = async () => {
   const session = await getAuthSession()
@@ -33,49 +34,28 @@ const FirmaPage = async () => {
     <ContentLayout title="Firma">
       <Breadcrumb>
         <BreadcrumbList>
-          {/* <BreadcrumbItem>
+          <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+              <Link href="/dashboard">Dashboard</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator /> */}
+          <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Firma Ekle</BreadcrumbPage>
+            <BreadcrumbPage>Firma</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
-        <div className="mt-4 rounded-md bg-background/60 p-4">
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>Firma Ekle</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col gap-y-4">
-                <Input placeholder="Şirket Adı" />
-                <Input placeholder="Sektörü" />
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="outline">Sıfırla</Button>
-              <Button>Ekle</Button>
-            </CardFooter>
-          </Card>
-        </div>
       </Breadcrumb>
-      <div className="py-3"></div>
-      <Breadcrumb>
-        <BreadcrumbList>
-          {/* <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator /> */}
-          <BreadcrumbItem>
-            <BreadcrumbPage>Firma Listesi</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-        <DataTableDemo />
-      </Breadcrumb>
+
+      <Card className="w-full mt-4">
+        <CardHeader>
+          <CardTitle>Firma Ekle</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <FirmaForm />
+        </CardContent>
+      </Card>
+
+      <DataTableDemo />
     </ContentLayout>
   );
 };
