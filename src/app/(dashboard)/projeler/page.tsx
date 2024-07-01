@@ -2,13 +2,10 @@ import React from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ContentLayout } from "@/components/ContentLayout";
-import Link from "next/link";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import {
@@ -20,15 +17,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { DataTableDemo } from "@/components/DataTable";
 
 const ProjelerPage = async () => {
