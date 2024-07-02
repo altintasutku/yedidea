@@ -1,38 +1,53 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { z } from 'zod';
-import AutoForm, { AutoFormSubmit } from './ui/auto-form';
+import React from "react";
+import { z } from "zod";
+import AutoForm, { AutoFormSubmit } from "./ui/auto-form";
+import { useFormState, useFormStatus } from "react-dom";
+import { createPersonel } from "@/app/actions/personel";
+import { Button } from "./ui/button";
+import { useSession } from "next-auth/react";
 
-const formSchema = z.object({
-    name: z
-        .string({
-            required_error: "İsim zorunludur.",
-        })
-        .describe("İsim"),
-    sector: z.string({
-        required_error: "Sektör zorunludur.",
-    }).describe("Sektör"),
-    age: z.coerce.number().min(1, "Yaş 1'den büyük olmalıdır.").describe("Yaş"),
-    resume: z.string().describe("Özgeçmiş"),
+export const personelFormSchema = z.object({
+  name: z
+    .string({
+      required_error: "İsim zorunludur.",
+    })
+    .describe("İsim"),
+  sector: z
+    .string({
+      required_error: "Sektör zorunludur.",
+    })
+    .describe("Sektör"),
+  age: z
+    .string({
+      required_error: "Yaş zorunludur.",
+    })
+    .describe("Yaş"),
+  resume: z.string().describe("Özgeçmiş"),
 });
 
 const PersonelForm = () => {
-    return (
-        <AutoForm
-            formSchema={formSchema}
-            onSubmit={async (values) => {
+  const [state, formAction] = useFormState(createPersonel, null);
+  const { pending } = useFormStatus();
 
-            }}
-            fieldConfig={{
-                resume: {
-                    fieldType: "file",
-                },
-            }}
-        >
-            <AutoFormSubmit>Ekle</AutoFormSubmit>
-        </AutoForm>
-    )
-}
+  return (
+    <AutoForm
+      formSchema={personelFormSchema}
+      onSubmit={formAction}
+      fieldConfig={{
+        resume: {
+          fieldType: "file",
+        },
+      }}
+    >
+      {state === null ? (
+        <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
+      ) : (
+        <Button>Oluşturuldu</Button>
+      )}
+    </AutoForm>
+  );
+};
 
-export default PersonelForm
+export default PersonelForm;

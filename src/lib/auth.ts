@@ -1,4 +1,3 @@
-import { getServerSession, type AuthOptions, type User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import { db } from "./db";
@@ -6,22 +5,8 @@ import { userTable } from "./schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { env } from "@/env";
-import bcrypt from "bcryptjs"
-
-declare module "next-auth" {
-  interface User {
-    id: string;
-    email: string;
-    password: string;
-    role: "admin" | "user";
-    createdAt: Date | null;
-    updatedAt: Date | null;
-  }
-
-  interface Session {
-    user: User;
-  }
-}
+import bcrypt from "bcryptjs";
+import { AuthOptions, getServerSession } from "next-auth";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -49,9 +34,13 @@ export const authOptions: AuthOptions = {
             .where(eq(userTable.email, credentials!.email));
           if (!user) return null;
 
-          if(!(await bcrypt.compare(credentials!.password, user[0].password))){
+          if (
+            !(await bcrypt.compare(credentials!.password, user[0].password))
+          ) {
             return null;
           }
+
+          console.log(user)
 
           return user[0];
         } catch (error) {
@@ -67,6 +56,32 @@ export const authOptions: AuthOptions = {
   callbacks: {
     redirect() {
       return "/dashboard";
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email
+        token.password = user.password
+        token.role = user.role
+        token.createdAt = user.createdAt
+        token.updatedAt = user.updatedAt
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          email: token.email,
+          password: token.password,
+          role: token.role,
+          createdAt: token.createdAt,
+          updatedAt: token.updatedAt
+        },
+      };
     },
   },
 };
