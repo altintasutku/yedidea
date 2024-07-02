@@ -1,37 +1,45 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { z } from 'zod';
-import AutoForm, { AutoFormSubmit } from './ui/auto-form';
+import React from "react";
+import { z } from "zod";
+import AutoForm, { AutoFormSubmit } from "./ui/auto-form";
+import { createProject } from "@/app/actions/project";
+import { useFormState, useFormStatus } from "react-dom";
+import { Button } from "./ui/button";
 
-const formSchema = z.object({
-    name: z
-        .string({
-            required_error: "Proje adı zorunludur.",
-        })
-        .describe("Proje Adı"),
-    sector: z.string({
-        required_error: "Sektör zorunludur.",
-    }).describe("Sektör"),
-    companyName: z.string({
-        required_error: "Firma adı zorunludur.",
-    }).describe("Firma Adı"),
-    startDate: z.coerce.date().describe("Başlangıç Tarihi"),
-    endDate: z.coerce.date().describe("Bitiş Tarihi"),
-    price: z.coerce.number().describe("Fiyat"),
+export const projectSchema = z.object({
+  projectName: z
+    .string({
+      required_error: "Proje adı zorunludur.",
+    })
+    .describe("Proje Adı"),
+  sector: z
+    .string({
+      required_error: "Sektör zorunludur.",
+    })
+    .describe("Sektör"),
+  firmName: z
+    .string({
+      required_error: "Firma adı zorunludur.",
+    })
+    .describe("Firma Adı"),
+  startDate: z.coerce.date().describe("Başlangıç Tarihi"),
+  endDate: z.coerce.date().describe("Bitiş Tarihi"),
+  price: z.coerce.number().describe("Fiyat"),
 });
 
 const ProjelerForm = () => {
-    return (
-        <AutoForm
-            formSchema={formSchema}
-            onSubmit={async (values) => {
+  const [state, formAction] = useFormState(createProject, null);
+  const { pending } = useFormStatus();
+  return (
+    <AutoForm formSchema={projectSchema} onSubmit={formAction}>
+      {state === null ? (
+        <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
+      ) : (
+        <Button>Oluşturuldu</Button>
+      )}
+    </AutoForm>
+  );
+};
 
-            }}
-        >
-            <AutoFormSubmit>Ekle</AutoFormSubmit>
-        </AutoForm>
-    )
-}
-
-export default ProjelerForm
+export default ProjelerForm;

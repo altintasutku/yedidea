@@ -7,7 +7,6 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
-import { create } from "domain";
 
 export const userRoles = pgEnum("user_roles", ["admin", "user"]);
 
@@ -56,6 +55,27 @@ export const firmTable = pgTable("firma", {
 export const firmRelations = relations(firmTable, ({ one }) => ({
   createdBy: one(userTable, {
     fields: [firmTable.createdBy],
+    references: [userTable.id],
+  }),
+}));
+
+export const projectTable = pgTable("projects", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  projectName: text("name").notNull(),
+  firmName: text("firm_name").notNull(),
+  sector: text("sector").notNull(),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
+  createdBy: uuid("created_by").notNull(),
+});
+
+export const projectRelations = relations(projectTable, ({ one }) => ({
+  createdBy: one(userTable, {
+    fields: [projectTable.createdBy],
     references: [userTable.id],
   }),
 }));
