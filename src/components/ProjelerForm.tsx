@@ -25,7 +25,7 @@ export const projectSchema = z.object({
     .describe("Firma Adı"),
   startDate: z.coerce.date().describe("Başlangıç Tarihi"),
   endDate: z.coerce.date().describe("Bitiş Tarihi"),
-  price: z.coerce.number().describe("Fiyat"),
+  amount: z.coerce.number().describe("Fiyat"),
 });
 
 const ProjelerForm = () => {
