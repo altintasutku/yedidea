@@ -30,11 +30,12 @@ import {
 } from "@/components/ui/table";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { DebtForm } from "@/components/DebtForm";
 
 const GiderlerPage = async () => {
-  const session = await getAuthSession()
+  const session = await getAuthSession();
   if (!session) {
-    return redirect('/login')
+    return redirect("/login");
   }
   return (
     <ContentLayout title="Firma">
@@ -54,11 +55,7 @@ const GiderlerPage = async () => {
                 <CardTitle>Verecekler Düzenleme</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-col gap-y-4">
-                  <Input placeholder="İsim" />
-                  <Input placeholder="Gider Türü" />
-                  <Input placeholder="Miktar" />
-                </div>
+                <DebtForm />
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Button variant="outline">Sıfırla</Button>

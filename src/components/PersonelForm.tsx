@@ -6,7 +6,6 @@ import AutoForm, { AutoFormSubmit } from "./ui/auto-form";
 import { useFormState, useFormStatus } from "react-dom";
 import { createPersonel } from "@/app/actions/personel";
 import { Button } from "./ui/button";
-import { useSession } from "next-auth/react";
 
 export const personelFormSchema = z.object({
   name: z

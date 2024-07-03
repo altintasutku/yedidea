@@ -7,6 +7,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
+import { number } from "zod";
 
 export const userRoles = pgEnum("user_roles", ["admin", "user"]);
 
@@ -68,6 +69,7 @@ export const projectTable = pgTable("projects", {
   sector: text("sector").notNull(),
   startDate: timestamp("start_date").notNull(),
   endDate: timestamp("end_date").notNull(),
+  amount: numeric("amount").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
   createdBy: uuid("created_by").notNull(),
@@ -76,6 +78,24 @@ export const projectTable = pgTable("projects", {
 export const projectRelations = relations(projectTable, ({ one }) => ({
   createdBy: one(userTable, {
     fields: [projectTable.createdBy],
+    references: [userTable.id],
+  }),
+}));
+
+export const debtTable = pgTable("debts", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  amount: numeric("amount").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
+  createdBy: uuid("created_by").notNull(),
+});
+
+export const debtRelations = relations(debtTable, ({ one }) => ({
+  createdBy: one(userTable, {
+    fields: [debtTable.createdBy],
     references: [userTable.id],
   }),
 }));
