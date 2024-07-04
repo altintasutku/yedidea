@@ -18,7 +18,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DataTableDemo } from "@/components/DataTable";
+import { DataTable } from "@/components/DataTable";
 import PersonelForm from "@/components/PersonelForm";
 import Link from "next/link";
 
@@ -55,7 +55,7 @@ const PersonelPage = async () => {
         </CardContent>
       </Card>
 
-      <DataTableDemo />
+      <DataTable />
     </ContentLayout>
   );
 };

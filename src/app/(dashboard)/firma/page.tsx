@@ -20,7 +20,7 @@ import {
 import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DataTableDemo } from "@/components/DataTable";
+import { DataTable } from "@/components/DataTable";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import FirmaForm from "@/components/FirmaForm";
@@ -55,7 +55,7 @@ const FirmaPage = async () => {
         </CardContent>
       </Card>
 
-      <DataTableDemo />
+      <DataTable />
     </ContentLayout>
   );
 };

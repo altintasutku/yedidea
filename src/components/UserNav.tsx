@@ -9,7 +9,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  TooltipProvider
+  TooltipProvider,
 } from "@/components/ui/tooltip";
 import {
   DropdownMenu,
@@ -18,26 +18,23 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
 
 export function UserNav() {
-
   const session = useSession();
 
-  if(session.status === "loading"){
-    return (
-      <Loader2Icon className="animate-spin h-8 w-8" />
-    )
+  if (session.status === "loading") {
+    return <Loader2Icon className="h-8 w-8 animate-spin" />;
   }
 
-  if(session.status === "unauthenticated" || !session.data){
+  if (session.status === "unauthenticated" || !session.data) {
     return (
       <Link href="/login">
         <a className="text-white">Login</a>
       </Link>
-    )
+    );
   }
 
   return (
@@ -52,9 +49,9 @@ export function UserNav() {
               >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="#" alt="Avatar" />
-                  <AvatarFallback className="bg-transparent">{
-                    session.data.user.email[0][0].toUpperCase()
-                  }</AvatarFallback>
+                  <AvatarFallback className="bg-transparent font-bold">
+                    {session.data.user.email[0].toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -88,10 +85,13 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator /> */}
-        <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {
-          signOut()
-        }}>
-          <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
+        <DropdownMenuItem
+          className="hover:cursor-pointer"
+          onClick={() => {
+            signOut();
+          }}
+        >
+          <LogOut className="mr-3 h-4 w-4 text-muted-foreground" />
           Çıkış Yap
         </DropdownMenuItem>
       </DropdownMenuContent>
