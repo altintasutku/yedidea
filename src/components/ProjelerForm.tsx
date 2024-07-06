@@ -47,7 +47,9 @@ const ProjelerForm = () => {
         required_error: "Sektör zorunludur.",
       })
       .describe("Sektör"),
-    //******NOT:bu kod calisiyor ama inatla string arrayi kabul etmiyor******
+    /*
+      *NOT:bu kod calisiyor ama inatla string arrayi kabul etmiyor 
+    */
     //@ts-expect-error
     firmName: z.enum(data.map((i) => i.name)).describe("Firma Adı"),
     startDate: z.coerce.date().describe("Başlangıç Tarihi"),

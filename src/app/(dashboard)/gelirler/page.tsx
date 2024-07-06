@@ -7,7 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { DataTableDemo } from "@/components/DataTable";
+import { DataTable } from "@/components/DataTable";
 import {
   Card,
   CardContent,
@@ -105,7 +105,7 @@ const GelirlerPage = async () => {
             <BreadcrumbPage>Firma Listesi</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
-        <DataTableDemo />
+        <DataTable />
       </Breadcrumb>
     </ContentLayout>
   );

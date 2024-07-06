@@ -13,15 +13,15 @@ import { redirect } from "next/navigation";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { DataTableDemo } from "@/components/DataTable";
+import { DataTable } from "@/components/DataTable";
 import Link from "next/link";
 import ProjelerForm from "@/components/ProjelerForm";
+import { ProjelerColumns } from "@/components/ProjelerColumns";
+import { db } from "@/lib/db";
+import { projectTable } from "@/lib/schema";
 
 const ProjelerPage = async () => {
   const session = await getAuthSession();
@@ -29,9 +29,11 @@ const ProjelerPage = async () => {
     return redirect("/login");
   }
 
+  const data = await db.select().from(projectTable);
+
   return (
     <ContentLayout title="Projeler">
-       <Breadcrumb>
+      <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
@@ -45,7 +47,7 @@ const ProjelerPage = async () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Card className="w-full mt-4">
+      <Card className="mt-4 w-full">
         <CardHeader>
           <CardTitle>Proje Ekle</CardTitle>
         </CardHeader>
@@ -54,7 +56,7 @@ const ProjelerPage = async () => {
         </CardContent>
       </Card>
 
-      <DataTableDemo />
+      <DataTable columns={ProjelerColumns} data={data} />
     </ContentLayout>
   );
 };

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { DataTableDemo } from "@/components/DataTable";
+import { DataTable } from "@/components/DataTable";
 import {
   Table,
   TableBody,
@@ -107,7 +107,7 @@ const GiderlerPage = async () => {
             <BreadcrumbPage>Firma Listesi</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
-        <DataTableDemo />
+        <DataTable />
       </Breadcrumb>
     </ContentLayout>
   );

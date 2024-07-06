@@ -40,8 +40,6 @@ export const authOptions: AuthOptions = {
             return null;
           }
 
-          console.log(user)
-
           return user[0];
         } catch (error) {
           return null;
