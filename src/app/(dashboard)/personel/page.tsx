@@ -24,7 +24,7 @@ import Link from "next/link";
 
 import { db } from "@/lib/db";
 import { personelTable } from "@/lib/schema";
-import { PersonelColumns } from "@/components/personelColumns";
+import { PersonelColumns } from "@/components/PersonelColumns";
 
 const PersonelPage = async () => {
   const session = await getAuthSession();
