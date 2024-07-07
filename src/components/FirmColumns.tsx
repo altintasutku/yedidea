@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const ProjelerColumns: ColumnDef<any>[] = [
+export const FirmColumns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -62,53 +62,25 @@ export const ProjelerColumns: ColumnDef<any>[] = [
   //     ),
   //   },
   {
-    accessorKey: "projectName",
+    accessorKey: "name",
     header: () => <div>İsim</div>,
     cell: ({ row }) => {
-      return <div className="font-bold">{row.getValue("projectName")}</div>;
+      return <div className="font-bold">{row.getValue("name")}</div>;
     },
   },
-  {
-    accessorKey: "firmName",
-    header: () => <div>Firma</div>,
-    cell: ({ row }) => <div>{row.getValue("firmName")}</div>,
-  },
+
   {
     accessorKey: "sector",
     header: () => <div>Sektör</div>,
     cell: ({ row }) => <div>{row.getValue("sector")}</div>,
   },
   {
-    accessorKey: "startDate",
+    accessorKey: "createdAt",
     header: () => <div>Başlangıç</div>,
     cell: ({ row }) => {
-      const date = new Date(row.getValue("startDate"));
+      const date = new Date(row.getValue("createdAt"));
 
       return <div>{date.toLocaleDateString()}</div>;
-    },
-  },
-  {
-    accessorKey: "endDate",
-    header: () => <div>Bitiş</div>,
-    cell: ({ row }) => {
-      const date = new Date(row.getValue("endDate"));
-
-      return <div>{date.toLocaleDateString()}</div>;
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Fiyat</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
     },
   },
   {
