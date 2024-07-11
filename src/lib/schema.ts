@@ -7,7 +7,6 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
-import { number } from "zod";
 
 export const userRoles = pgEnum("user_roles", ["admin", "user"]);
 

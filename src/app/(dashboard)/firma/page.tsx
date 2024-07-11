@@ -9,17 +9,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ContentLayout } from "@/components/ContentLayout";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@radix-ui/react-label";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/DataTable";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -29,9 +19,9 @@ import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema";
 
 const FirmaPage = async () => {
-  const session = await getAuthSession()
+  const session = await getAuthSession();
   if (!session) {
-    return redirect('/login')
+    return redirect("/login");
   }
 
   const data = await db.select().from(firmTable);
@@ -52,7 +42,7 @@ const FirmaPage = async () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Card className="w-full mt-4">
+      <Card className="mt-4 w-full">
         <CardHeader>
           <CardTitle>Firma Ekle</CardTitle>
         </CardHeader>

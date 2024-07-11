@@ -25,15 +25,16 @@ import { personelColumns } from "@/components/PersonelColumns";
 import { db } from "@/lib/db";
 import { personelTable } from "@/lib/schema";
 
+import { db } from "@/lib/db";
+import { personelTable } from "@/lib/schema";
+import { PersonelColumns } from "@/components/PersonelColumns";
 
 const PersonelPage = async () => {
   const session = await getAuthSession();
   if (!session) {
     return redirect("/login");
   }
-
   const data = await db.select().from(personelTable);
-
   return (
     <ContentLayout title="Firma">
       <Breadcrumb>
@@ -50,8 +51,7 @@ const PersonelPage = async () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-
-      <Card className="w-full mt-4">
+      <Card className="mt-4 w-full">
         <CardHeader>
           <CardTitle>Personel Ekle</CardTitle>
         </CardHeader>
