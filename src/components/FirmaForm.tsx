@@ -10,9 +10,9 @@ import { Button } from "./ui/button";
 export const firmSchema = z.object({
   name: z
     .string({
-      required_error: "Proje adı zorunludur.",
+      required_error: "Firma adı zorunludur.",
     })
-    .describe("Proje Adı"),
+    .describe("Firma Adı"),
   sector: z
     .string({
       required_error: "Sektör zorunludur.",
