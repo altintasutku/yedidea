@@ -33,7 +33,7 @@ import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { IncomeForm } from "@/components/Forms/IncomeForm";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
-import { incomeColumns } from "@/components/IncomeColumns";
+import { incomeColumns } from "@/components/Columns/IncomeColumns";
 import { incomeTable } from "@/lib/schema";
 import { db } from "@/lib/db";
 

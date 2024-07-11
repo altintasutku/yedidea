@@ -3,10 +3,10 @@ import { firmSchema } from "@/components/Forms/FirmaForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const createFirm = async (
-  prevState: any,
   values: z.infer<typeof firmSchema>,
 ) => {
   const session = await getAuthSession();
@@ -14,8 +14,10 @@ export const createFirm = async (
     return null;
   }
 
-  return await db
+  await db
     .insert(firmTable)
     .values({ ...values, createdBy: session.user.id })
     .returning();
+
+  revalidatePath("/firma");
 };

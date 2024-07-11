@@ -5,17 +5,15 @@ import { incomeSchema } from "@/components/Forms/IncomeForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { incomeTable } from "@/lib/schema";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-export const createIncome = async (
-  prevState: any,
-  values: z.infer<typeof incomeSchema>,
-) => {
+export const createIncome = async (values: z.infer<typeof incomeSchema>) => {
   const session = await getAuthSession();
   if (!session?.user.id) {
     return null;
   }
-  return await db
+  await db
     .insert(incomeTable)
     .values({
       ...values,
@@ -23,4 +21,6 @@ export const createIncome = async (
       amount: values.amount.toString(),
     })
     .returning();
+
+  revalidatePath("/gelirler");
 };

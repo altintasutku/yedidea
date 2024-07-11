@@ -13,7 +13,6 @@ import { firmTable } from "@/lib/schema";
 import { Loader2Icon } from "lucide-react";
 
 const ProjelerForm = () => {
-  const [state, formAction] = useFormState(createProject, null);
   const { pending } = useFormStatus();
 
   const { data, isLoading, error } = useQuery({
@@ -48,8 +47,8 @@ const ProjelerForm = () => {
       })
       .describe("Sektör"),
     /*
-      *NOT:bu kod calisiyor ama inatla string arrayi kabul etmiyor 
-    */
+     *NOT:bu kod calisiyor ama inatla string arrayi kabul etmiyor
+     */
     //@ts-expect-error
     firmName: z.enum(data.map((i) => i.name)).describe("Firma Adı"),
     startDate: z.coerce.date().describe("Başlangıç Tarihi"),
@@ -57,13 +56,13 @@ const ProjelerForm = () => {
     amount: z.coerce.number().describe("Fiyat"),
   });
 
+  if (data?.length === 0) {
+    return <div>Firma bulunamadı</div>;
+  }
+
   return (
-    <AutoForm formSchema={projectSchema} onSubmit={formAction}>
-      {state === null ? (
-        <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
-      ) : (
-        <Button>Oluşturuldu</Button>
-      )}
+    <AutoForm formSchema={projectSchema} onSubmit={createProject}>
+      <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
     </AutoForm>
   );
 };

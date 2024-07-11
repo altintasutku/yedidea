@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { z } from "zod";
+import React from "react";
+import * as z from "zod";
 import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 import { createPersonel } from "@/app/actions/personel";
-import { Button } from "../ui/button";
+import { AutoFormInputComponentProps } from "../ui/auto-form/types";
+import { FormControl, FormItem, FormLabel } from "../ui/form";
+import { Input } from "../ui/input";
 
 export const personelFormSchema = z.object({
   name: z
@@ -23,28 +25,18 @@ export const personelFormSchema = z.object({
       required_error: "Yaş zorunludur.",
     })
     .describe("Yaş"),
-  resume: z.string().describe("Özgeçmiş"),
+  files: z.string().describe("Dosyalar"),
 });
 
 const PersonelForm = () => {
-  const [state, formAction] = useFormState(createPersonel, null);
   const { pending } = useFormStatus();
 
   return (
     <AutoForm
       formSchema={personelFormSchema}
-      onSubmit={formAction}
-      fieldConfig={{
-        resume: {
-          fieldType: "file",
-        },
-      }}
+      onSubmit={(values) => console.log(values)}
     >
-      {state === null ? (
-        <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
-      ) : (
-        <Button>Oluşturuldu</Button>
-      )}
+      <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
     </AutoForm>
   );
 };
