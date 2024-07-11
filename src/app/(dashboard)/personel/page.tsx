@@ -21,6 +21,9 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/DataTable";
 import PersonelForm from "@/components/PersonelForm";
 import Link from "next/link";
+import { personelColumns } from "@/components/PersonelColumns";
+import { db } from "@/lib/db";
+import { personelTable } from "@/lib/schema";
 
 
 const PersonelPage = async () => {
@@ -28,6 +31,8 @@ const PersonelPage = async () => {
   if (!session) {
     return redirect("/login");
   }
+
+  const data = await db.select().from(personelTable);
 
   return (
     <ContentLayout title="Firma">
@@ -55,7 +60,7 @@ const PersonelPage = async () => {
         </CardContent>
       </Card>
 
-      <DataTable />
+      <DataTable columns={personelColumns} data={data}/>
     </ContentLayout>
   );
 };
