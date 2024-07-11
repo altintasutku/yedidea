@@ -43,6 +43,13 @@
       "when": 1719966717054,
       "tag": "0005_powerful_arachne",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1720685688896,
+      "tag": "0006_illegal_gladiator",
+      "breakpoints": true
     }
   ]
 }

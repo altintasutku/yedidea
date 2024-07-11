@@ -13,10 +13,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/DataTable";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import FirmaForm from "@/components/FirmaForm";
+import FirmaForm from "@/components/Forms/FirmaForm";
 import { firmaColumns } from "@/components/FirmaColumns";
 import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema";
+import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 
 const FirmaPage = async () => {
   const session = await getAuthSession();
@@ -28,19 +29,7 @@ const FirmaPage = async () => {
 
   return (
     <ContentLayout title="Firma">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/dashboard">Dashboard</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Firma</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <DashboardBreadcrumb page="Firma"/>
 
       <Card className="mt-4 w-full">
         <CardHeader>

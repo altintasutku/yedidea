@@ -1,5 +1,5 @@
 "use server";
-import { firmSchema } from "@/components/FirmaForm";
+import { firmSchema } from "@/components/Forms/FirmaForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema";

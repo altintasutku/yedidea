@@ -1,5 +1,5 @@
 "use server";
-import { personelFormSchema } from "@/components/PersonelForm";
+import { personelFormSchema } from "@/components/Forms/PersonelForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { personelTable } from "@/lib/schema";

@@ -80,7 +80,7 @@ export function DataTable({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
+              Kolonlar <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -166,7 +166,7 @@ export function DataTable({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Geri
           </Button>
           <Button
             variant="outline"
@@ -174,7 +174,7 @@ export function DataTable({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            İleri
           </Button>
         </div>
       </div>

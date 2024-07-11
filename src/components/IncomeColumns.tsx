@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const personelColumns: ColumnDef<any>[] = [
+export const incomeColumns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -69,23 +69,28 @@ export const personelColumns: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: "sector",
-    header: () => <div>Sektör</div>,
-    cell: ({ row }) => <div>{row.getValue("sector")}</div>,
+    accessorKey: "amount",
+    header: () => <div className="text-right">Fiyat</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"));
+
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount);
+
+      return <div className="text-right font-medium">{formatted}</div>;
+    },
   },
   {
-    accessorKey: "age",
-    header: () => <div>Yaş</div>,
-    cell: ({ row }) => <div>{row.getValue("age")}</div>,
-  },
-  {
-    accessorKey: "resume",
-    header: () => <div>Özgeçmiş</div>,
-    cell: ({ row }) => <div>
-      <Button onClick={()=>{
-        console.log(row.getValue("resume"));
-      }}>Dosyayı Aç</Button>
-    </div>,
+    accessorKey: "createdAt",
+    header: () => <div>Oluşturma Tarihi</div>,
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt"));
+
+      return <div>{date.toLocaleDateString()}</div>;
+    },
   },
   {
     id: "actions",
