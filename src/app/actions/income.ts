@@ -1,21 +1,22 @@
 "use server";
 
 import { debtSchema } from "@/components/Forms/DebtForm";
+import { incomeSchema } from "@/components/Forms/IncomeForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { debtTable, incomeTable } from "@/lib/schema";
+import { incomeTable } from "@/lib/schema";
 import { z } from "zod";
 
-export const createDebt = async (
+export const createIncome = async (
   prevState: any,
-  values: z.infer<typeof debtSchema>,
+  values: z.infer<typeof incomeSchema>,
 ) => {
   const session = await getAuthSession();
   if (!session?.user.id) {
     return null;
   }
   return await db
-    .insert(debtTable)
+    .insert(incomeTable)
     .values({
       ...values,
       createdBy: session.user.id,

@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { z } from "zod";
-import AutoForm, { AutoFormSubmit } from "./ui/auto-form";
+import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
 import { useFormState, useFormStatus } from "react-dom";
 import { createPersonel } from "@/app/actions/personel";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 export const personelFormSchema = z.object({
   name: z

@@ -18,10 +18,11 @@ import {
 } from "@/components/ui/card";
 import { DataTable } from "@/components/DataTable";
 import Link from "next/link";
-import ProjelerForm from "@/components/ProjelerForm";
+import ProjelerForm from "@/components/Forms/ProjelerForm";
 import { ProjelerColumns } from "@/components/ProjelerColumns";
 import { db } from "@/lib/db";
 import { projectTable } from "@/lib/schema";
+import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 
 const ProjelerPage = async () => {
   const session = await getAuthSession();
@@ -33,19 +34,7 @@ const ProjelerPage = async () => {
 
   return (
     <ContentLayout title="Projeler">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/dashboard">Dashboard</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Projeler</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <DashboardBreadcrumb page="Projeler"/>
 
       <Card className="mt-4 w-full">
         <CardHeader>

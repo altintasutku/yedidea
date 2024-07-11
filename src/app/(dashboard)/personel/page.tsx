@@ -1,12 +1,4 @@
 import React from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { ContentLayout } from "@/components/ContentLayout";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -19,15 +11,12 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/DataTable";
-import PersonelForm from "@/components/PersonelForm";
+import PersonelForm from "@/components/Forms/PersonelForm";
 import Link from "next/link";
 import { personelColumns } from "@/components/PersonelColumns";
 import { db } from "@/lib/db";
 import { personelTable } from "@/lib/schema";
-
-import { db } from "@/lib/db";
-import { personelTable } from "@/lib/schema";
-import { PersonelColumns } from "@/components/PersonelColumns";
+import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 
 const PersonelPage = async () => {
   const session = await getAuthSession();
@@ -36,20 +25,8 @@ const PersonelPage = async () => {
   }
   const data = await db.select().from(personelTable);
   return (
-    <ContentLayout title="Firma">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/dashboard">Dashboard</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Personel</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+    <ContentLayout title="Personel">
+      <DashboardBreadcrumb page="Personel" />
 
       <Card className="mt-4 w-full">
         <CardHeader>
@@ -60,7 +37,7 @@ const PersonelPage = async () => {
         </CardContent>
       </Card>
 
-      <DataTable columns={personelColumns} data={data}/>
+      <DataTable columns={personelColumns} data={data} />
     </ContentLayout>
   );
 };
