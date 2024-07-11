@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { MoreHorizontalIcon } from "lucide-react";
+import { ArrowUpDownIcon, MoreHorizontalIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const FirmColumns: ColumnDef<any>[] = [
+export const debtColumns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -68,15 +68,24 @@ export const FirmColumns: ColumnDef<any>[] = [
       return <div className="font-bold">{row.getValue("name")}</div>;
     },
   },
-
   {
-    accessorKey: "sector",
-    header: () => <div>Sektör</div>,
-    cell: ({ row }) => <div>{row.getValue("sector")}</div>,
+    accessorKey: "amount",
+    header: () => <div className="text-right">Fiyat</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"));
+
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("tr-TR", {
+        style: "currency",
+        currency: "TRY",
+      }).format(amount);
+
+      return <div className="text-right font-medium">{formatted}</div>;
+    },
   },
   {
     accessorKey: "createdAt",
-    header: () => <div>Başlangıç</div>,
+    header: () => <div>Oluşturma Tarihi</div>,
     cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt"));
 

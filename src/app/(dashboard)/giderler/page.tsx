@@ -31,7 +31,7 @@ import {
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { DebtForm } from "@/components/Forms/DebtForm";
-import { debtColumns } from "@/components/DebtColumns";
+import { debtColumns } from "@/components/Columns/DebtColumns";
 import { db } from "@/lib/db";
 import { debtTable, incomeTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/DataTable";
 import PersonelForm from "@/components/Forms/PersonelForm";
 import Link from "next/link";
-import { personelColumns } from "@/components/PersonelColumns";
+import { personelColumns } from "@/components/Columns/PersonelColumns";
 import { db } from "@/lib/db";
 import { personelTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";

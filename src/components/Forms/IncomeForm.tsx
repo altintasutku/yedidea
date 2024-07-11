@@ -12,16 +12,11 @@ export const incomeSchema = z.object({
 });
 
 export const IncomeForm = () => {
-  const [state, formAction] = useFormState(createIncome, null);
   const { pending } = useFormStatus();
 
   return (
-    <AutoForm formSchema={incomeSchema} onSubmit={formAction}>
-      {state === null ? (
-        <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
-      ) : (
-        <Button>Oluşturuldu</Button>
-      )}
+    <AutoForm formSchema={incomeSchema} onSubmit={createIncome}>
+      <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
     </AutoForm>
   );
 };

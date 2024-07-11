@@ -14,7 +14,7 @@ import { DataTable } from "@/components/DataTable";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import FirmaForm from "@/components/Forms/FirmaForm";
-import { firmaColumns } from "@/components/FirmaColumns";
+import { firmaColumns } from "@/components/Columns/FirmaColumns";
 import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";

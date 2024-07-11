@@ -21,15 +21,10 @@ export const firmSchema = z.object({
 });
 
 const FirmaForm = () => {
-  const [state, formAction] = useFormState(createFirm, null);
   const { pending } = useFormStatus();
   return (
-    <AutoForm formSchema={firmSchema} onSubmit={formAction}>
-      {state === null ? (
-        <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
-      ) : (
-        <Button>Oluşturuldu</Button>
-      )}
+    <AutoForm formSchema={firmSchema} onSubmit={createFirm}>
+      <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
     </AutoForm>
   );
 };
