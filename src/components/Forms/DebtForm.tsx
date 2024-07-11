@@ -11,16 +11,11 @@ export const debtSchema = z.object({
 });
 
 export const DebtForm = () => {
-  const [state, formAction] = useFormState(createDebt, null);
   const { pending } = useFormStatus();
 
   return (
-    <AutoForm formSchema={debtSchema} onSubmit={formAction}>
-      {state === null ? (
-        <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
-      ) : (
-        <Button>Oluşturuldu</Button>
-      )}
+    <AutoForm formSchema={debtSchema} onSubmit={createDebt}>
+      <AutoFormSubmit disabled={pending}>Ekle</AutoFormSubmit>
     </AutoForm>
   );
 };

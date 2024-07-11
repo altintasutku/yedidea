@@ -47,7 +47,7 @@ const GelirlerPage = async () => {
   return (
     <ContentLayout title="Gelirler">
       <DashboardBreadcrumb page="Gelirler" />
-      
+
       <div className="grid grid-cols-2 gap-3">
         <Card className="w-full">
           <CardHeader>
@@ -59,6 +59,7 @@ const GelirlerPage = async () => {
         </Card>
 
         <Card className="w-full">
+          {/* TODO */}
           <CardHeader>
             <CardTitle>Önceden Alınanlar</CardTitle>
           </CardHeader>

@@ -58,6 +58,7 @@ const GiderlerPage = async () => {
         </Card>
 
         <Card className="w-full">
+          {/* TODO */}
           <CardHeader>
             <CardTitle>Önceden Verilenler</CardTitle>
           </CardHeader>
