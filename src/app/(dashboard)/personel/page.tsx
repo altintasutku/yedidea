@@ -21,6 +21,9 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/DataTable";
 import PersonelForm from "@/components/PersonelForm";
 import Link from "next/link";
+import { personelColumns } from "@/components/PersonelColumns";
+import { db } from "@/lib/db";
+import { personelTable } from "@/lib/schema";
 
 import { db } from "@/lib/db";
 import { personelTable } from "@/lib/schema";
@@ -57,7 +60,7 @@ const PersonelPage = async () => {
         </CardContent>
       </Card>
 
-      <DataTable columns={PersonelColumns} data={data} />
+      <DataTable columns={personelColumns} data={data}/>
     </ContentLayout>
   );
 };

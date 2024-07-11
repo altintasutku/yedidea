@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDownIcon, MoreHorizontalIcon } from "lucide-react";
-import { MoreHorizontalIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const personelColumns: ColumnDef<any>[] = [
+export const firmaColumns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -38,30 +37,30 @@ export const personelColumns: ColumnDef<any>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  //   {
-  //     accessorKey: "id",
-  //     header: ({ column }) => {
-  //       return (
-  //         <Button
-  //           variant="ghost"
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //         >
-  //           ID
-  //           <ArrowUpDownIcon className="ml-2 h-4 w-4" />
-  //         </Button>
-  //       );
-  //     },
-  //     cell: ({ row }) => (
-  //       <div
-  //         className="cursor-pointer"
-  //         onClick={() => {
-  //           navigator.clipboard.writeText(row.original.id);
-  //         }}
-  //       >
-  //         {(row.getValue("id") as string).slice(0, 8)}...
-  //       </div>
-  //     ),
-  //   },
+//   {
+//     accessorKey: "id",
+//     header: ({ column }) => {
+//       return (
+//         <Button
+//           variant="ghost"
+//           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+//         >
+//           ID
+//           <ArrowUpDownIcon className="ml-2 h-4 w-4" />
+//         </Button>
+//       );
+//     },
+//     cell: ({ row }) => (
+//       <div
+//         className="cursor-pointer"
+//         onClick={() => {
+//           navigator.clipboard.writeText(row.original.id);
+//         }}
+//       >
+//         {(row.getValue("id") as string).slice(0, 8)}...
+//       </div>
+//     ),
+//   },
   {
     accessorKey: "name",
     header: () => <div>İsim</div>,
@@ -75,18 +74,13 @@ export const personelColumns: ColumnDef<any>[] = [
     cell: ({ row }) => <div>{row.getValue("sector")}</div>,
   },
   {
-    accessorKey: "age",
-    header: () => <div>Yaş</div>,
-    cell: ({ row }) => <div>{row.getValue("age")}</div>,
-  },
-  {
-    accessorKey: "resume",
-    header: () => <div>Özgeçmiş</div>,
-    cell: ({ row }) => <div>
-      <Button onClick={()=>{
-        console.log(row.getValue("resume"));
-      }}>Dosyayı Aç</Button>
-    </div>,
+    accessorKey: "createdAt",
+    header: () => <div>Oluşturma Tarihi</div>,
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt"));
+
+      return <div>{date.toLocaleDateString()}</div>;
+    },
   },
   {
     id: "actions",

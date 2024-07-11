@@ -14,9 +14,9 @@ import { DataTable } from "@/components/DataTable";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import FirmaForm from "@/components/FirmaForm";
+import { firmaColumns } from "@/components/FirmaColumns";
 import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema";
-import { FirmColumns } from "@/components/FirmColumns";
 
 const FirmaPage = async () => {
   const session = await getAuthSession();
@@ -51,7 +51,7 @@ const FirmaPage = async () => {
         </CardContent>
       </Card>
 
-      <DataTable columns={FirmColumns} data={data} />
+      <DataTable columns={firmaColumns} data={data}/>
     </ContentLayout>
   );
 };

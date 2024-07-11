@@ -31,9 +31,9 @@ import {
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { DebtForm } from "@/components/DebtForm";
+import { debtColumns } from "@/components/DebtColumns";
 import { db } from "@/lib/db";
 import { debtTable } from "@/lib/schema";
-import { PersonelColumns } from "@/components/PersonelColumns";
 
 const GiderlerPage = async () => {
   const session = await getAuthSession();
@@ -41,6 +41,7 @@ const GiderlerPage = async () => {
     return redirect("/login");
   }
   const data = await db.select().from(debtTable);
+
   return (
     <ContentLayout title="Firma">
       <Breadcrumb>
@@ -111,7 +112,7 @@ const GiderlerPage = async () => {
             <BreadcrumbPage>Firma Listesi</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
-        <DataTable columns={PersonelColumns} data={data} />
+        <DataTable columns={debtColumns} data={data}/>
       </Breadcrumb>
     </ContentLayout>
   );
