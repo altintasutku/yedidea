@@ -16,7 +16,7 @@ import { redirect } from "next/navigation";
 import FirmaForm from "@/components/FirmaForm";
 import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema";
-import { FirmColumns } from "@/components/firmColumns";
+import { FirmColumns } from "@/components/FirmColumns";
 
 const FirmaPage = async () => {
   const session = await getAuthSession();
