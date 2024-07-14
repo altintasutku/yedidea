@@ -50,7 +50,8 @@ export function UserNav() {
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="#" alt="Avatar" />
                   <AvatarFallback className="bg-transparent font-bold">
-                    {session.data.user.email[0].toUpperCase()}
+                    {session.data.user.email &&
+                      session.data.user.email[0].toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </Button>
