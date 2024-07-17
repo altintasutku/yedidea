@@ -1,6 +1,6 @@
 "use server";
 
-import { debtSchema } from "@/components/Forms/DebtForm";
+import { debtSchema } from "@/components/dashboard/Forms/DebtForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { debtTable, incomeTable } from "@/lib/schema";

@@ -31,9 +31,9 @@ import { ContentLayout } from "@/components/ContentLayout";
 import Link from "next/link";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { IncomeForm } from "@/components/Forms/IncomeForm";
+import { IncomeForm } from "@/components/dashboard/Forms/IncomeForm";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
-import { incomeColumns } from "@/components/Columns/IncomeColumns";
+import { incomeColumns } from "@/components/dashboard/Columns/IncomeColumns";
 import { incomeTable } from "@/lib/schema";
 import { db } from "@/lib/db";
 

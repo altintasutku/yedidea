@@ -31,13 +31,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+} from "@/components/ui/dialog";
+import PersonelForm from "./dashboard/Forms/PersonelForm";
 
 export function DataTable({
   columns,
   data,
+  DialogContent
 }: {
   columns: ColumnDef<any>[];
   data: any;
+  DialogContent?: React.FC<{ row: any }>;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -46,6 +52,10 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+  const [openDialogIndex, setOpenDialogIndex] = React.useState<number | null>(
+    null,
+  );
 
   const table = useReactTable({
     data,
@@ -80,7 +90,14 @@ export function DataTable({
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              variant="outline"
+              className="ml-auto"
+            >
               Kolonlar <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -127,20 +144,28 @@ export function DataTable({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
+              table.getRowModel().rows.map((row, index) => (
+                <React.Fragment key={row.id}>
+                  <TableRow
+                    data-state={row.getIsSelected() && "selected"}
+                    onClick={() => setOpenDialogIndex(index)}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {DialogContent && <Dialog
+                    open={openDialogIndex === index}
+                    onOpenChange={(v) => setOpenDialogIndex(v ? index : null)}
+                  >
+                    <DialogContent row={row} />
+                  </Dialog>}
+                </React.Fragment>
               ))
             ) : (
               <TableRow>

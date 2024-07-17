@@ -1,8 +1,8 @@
 "use client";
 import { useFormState, useFormStatus } from "react-dom";
 import { z } from "zod";
-import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
-import { Button } from "../ui/button";
+import AutoForm, { AutoFormSubmit } from "../../ui/auto-form";
+import { Button } from "../../ui/button";
 import { createDebt } from "@/app/actions/debt";
 import { createIncome } from "@/app/actions/income";
 

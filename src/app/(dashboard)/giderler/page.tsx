@@ -30,8 +30,8 @@ import {
 } from "@/components/ui/table";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { DebtForm } from "@/components/Forms/DebtForm";
-import { debtColumns } from "@/components/Columns/DebtColumns";
+import { DebtForm } from "@/components/dashboard/Forms/DebtForm";
+import { debtColumns } from "@/components/dashboard/Columns/DebtColumns";
 import { db } from "@/lib/db";
 import { debtTable, incomeTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
