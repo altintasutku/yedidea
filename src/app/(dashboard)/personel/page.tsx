@@ -2,21 +2,13 @@ import React from "react";
 import { ContentLayout } from "@/components/ContentLayout";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/DataTable";
-import PersonelForm from "@/components/Forms/PersonelForm";
-import Link from "next/link";
-import { personelColumns } from "@/components/Columns/PersonelColumns";
+import { personelColumns } from "@/components/dashboard/Columns/PersonelColumns";
 import { db } from "@/lib/db";
 import { personelTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
+import CreatePersonelButton from "@/components/dashboard/personel/CreatePersonelButton";
+import EditPersonelDialog from "@/components/dashboard/personel/EditPersonelDialog";
 
 const PersonelPage = async () => {
   const session = await getAuthSession();
@@ -24,20 +16,15 @@ const PersonelPage = async () => {
     return redirect("/login");
   }
   const data = await db.select().from(personelTable);
+
   return (
     <ContentLayout title="Personel">
       <DashboardBreadcrumb page="Personel" />
+      <div className="w-full flex justify-end">
+        <CreatePersonelButton />
+      </div>
 
-      <Card className="mt-4 w-full">
-        <CardHeader>
-          <CardTitle>Personel Ekle</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <PersonelForm />
-        </CardContent>
-      </Card>
-
-      <DataTable columns={personelColumns} data={data} />
+      <DataTable DialogContent={EditPersonelDialog} columns={personelColumns} data={data} />
     </ContentLayout>
   );
 };

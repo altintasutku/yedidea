@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/card";
 import { DataTable } from "@/components/DataTable";
 import Link from "next/link";
-import ProjelerForm from "@/components/Forms/ProjelerForm";
-import { ProjelerColumns } from "@/components/Columns/ProjelerColumns";
+import ProjelerForm from "@/components/dashboard/Forms/ProjelerForm";
+import { ProjelerColumns } from "@/components/dashboard/Columns/ProjelerColumns";
 import { db } from "@/lib/db";
 import { projectTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";

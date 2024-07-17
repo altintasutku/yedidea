@@ -29,6 +29,8 @@ export const personelTable = pgTable("personel", {
   sector: text("sector").notNull(),
   age: numeric("age").notNull(),
   files: text("files").notNull(),
+  gender: text("gender").notNull(),
+  phone: text("phone").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
   createdBy: uuid("created_by").notNull(),

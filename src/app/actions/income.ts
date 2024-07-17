@@ -1,7 +1,7 @@
 "use server";
 
-import { debtSchema } from "@/components/Forms/DebtForm";
-import { incomeSchema } from "@/components/Forms/IncomeForm";
+import { debtSchema } from "@/components/dashboard/Forms/DebtForm";
+import { incomeSchema } from "@/components/dashboard/Forms/IncomeForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { incomeTable } from "@/lib/schema";

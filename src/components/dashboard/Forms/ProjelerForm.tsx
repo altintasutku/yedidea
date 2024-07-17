@@ -2,10 +2,10 @@
 
 import React from "react";
 import { z } from "zod";
-import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
+import AutoForm, { AutoFormSubmit } from "../../ui/auto-form";
 import { createProject } from "@/app/actions/project";
 import { useFormState, useFormStatus } from "react-dom";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { InferSelectModel } from "drizzle-orm";
