@@ -13,18 +13,18 @@ import { Button } from "@/components/ui/button";
 import PersonelForm from "../Forms/PersonelForm";
 
 const CreatePersonelButton = () => {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>
-          Personel Kartı Oluştur
-        </Button>
+        <Button>Personel Kartı Oluştur</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Personel Ekle</DialogTitle>
         </DialogHeader>
-        <PersonelForm />
+        <PersonelForm setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
