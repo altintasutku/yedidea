@@ -31,12 +31,13 @@ export const personelTable = pgTable("personel", {
   files: text("files").notNull(),
   gender: text("gender").notNull(),
   phone: text("phone").notNull(),
+
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
   createdBy: uuid("created_by").notNull(),
 });
 
-export const personelRelations = relations(personelTable, ({ one }) => ({
+export const personelRelations = relations(personelTable, ({ one, many }) => ({
   createdBy: one(userTable, {
     fields: [personelTable.createdBy],
     references: [userTable.id],
@@ -76,12 +77,36 @@ export const projectTable = pgTable("projects", {
   createdBy: uuid("created_by").notNull(),
 });
 
-export const projectRelations = relations(projectTable, ({ one }) => ({
+export type ProjectSelect = typeof projectTable.$inferSelect;
+export type ProjectInsert = typeof projectTable.$inferInsert;
+
+export const projectRelations = relations(projectTable, ({ one, many }) => ({
   createdBy: one(userTable, {
     fields: [projectTable.createdBy],
     references: [userTable.id],
   }),
+  projectPersonels: many(projectPersonelTable),
 }));
+
+export const projectPersonelTable = pgTable("project_personel", {
+  projectId: uuid("project_id").notNull(),
+  personelPrice: numeric("personel_price").notNull(),
+  personelId: uuid("personel_id").notNull(),
+});
+
+export const projectPersonelTableRelations = relations(
+  projectPersonelTable,
+  ({ one }) => ({
+    personel: one(personelTable, {
+      fields: [projectPersonelTable.personelId],
+      references: [personelTable.id],
+    }),
+    project: one(projectTable, {
+      fields: [projectPersonelTable.projectId],
+      references: [projectTable.id],
+    }),
+  }),
+);
 
 export const debtTable = pgTable("debts", {
   id: uuid("id")

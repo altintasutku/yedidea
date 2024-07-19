@@ -1,5 +1,5 @@
 {
-  "id": "e7538ca3-6296-44eb-9923-397eceb9451b",
+  "id": "29c3f4e2-d201-4729-994b-35e11c16b477",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -177,8 +177,20 @@
           "primaryKey": false,
           "notNull": true
         },
-        "resume": {
-          "name": "resume",
+        "files": {
+          "name": "files",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gender": {
+          "name": "gender",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone": {
+          "name": "phone",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -198,6 +210,44 @@
         },
         "created_by": {
           "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.project_personel_relation": {
+      "name": "project_personel_relation",
+      "schema": "",
+      "columns": {
+        "project_id": {
+          "name": "project_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.project_personel": {
+      "name": "project_personel",
+      "schema": "",
+      "columns": {
+        "personel_price": {
+          "name": "personel_price",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "personel_id": {
+          "name": "personel_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true

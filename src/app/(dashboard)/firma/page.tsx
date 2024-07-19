@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+
 import { ContentLayout } from "@/components/ContentLayout";
-import Link from "next/link";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/DataTable";
 import { getAuthSession } from "@/lib/auth";
@@ -29,7 +22,7 @@ const FirmaPage = async () => {
 
   return (
     <ContentLayout title="Firma">
-      <DashboardBreadcrumb page="Firma"/>
+      <DashboardBreadcrumb page="Firma" />
 
       <Card className="mt-4 w-full">
         <CardHeader>
@@ -40,7 +33,7 @@ const FirmaPage = async () => {
         </CardContent>
       </Card>
 
-      <DataTable columns={firmaColumns} data={data}/>
+      <DataTable columns={firmaColumns} data={data} />
     </ContentLayout>
   );
 };

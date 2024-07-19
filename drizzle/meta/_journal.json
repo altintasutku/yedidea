@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1720689342160,
-      "tag": "0000_zippy_vertigo",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1720694087519,
-      "tag": "0001_light_obadiah_stane",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1721216863951,
-      "tag": "0002_noisy_george_stacy",
+      "when": 1721409196764,
+      "tag": "0000_volatile_oracle",
       "breakpoints": true
     }
   ]

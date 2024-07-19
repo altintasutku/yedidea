@@ -4,12 +4,11 @@ import React from "react";
 import { z } from "zod";
 import AutoForm, { AutoFormSubmit } from "../../ui/auto-form";
 import { createProject } from "@/app/actions/project";
-import { useFormState, useFormStatus } from "react-dom";
-import { Button } from "../../ui/button";
+import { useFormStatus } from "react-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { InferSelectModel } from "drizzle-orm";
-import { firmTable } from "@/lib/schema";
+import { firmTable, personelTable, projectTable } from "@/lib/schema";
 import { Loader2Icon } from "lucide-react";
 
 const ProjelerForm = () => {
@@ -22,8 +21,37 @@ const ProjelerForm = () => {
       return response.data as InferSelectModel<typeof firmTable>[];
     },
   });
+  const {
+    data: personels,
+    isLoading: loading,
+    error: personelError,
+  } = useQuery({
+    queryKey: ["personels"],
+    queryFn: async () => {
+      const response = await axios.get("/api/personel");
+      return response.data as InferSelectModel<typeof personelTable>[];
+    },
+  });
+  // const {
+  //   data: projects,
+  //   isLoading: projectLoading,
+  //   error: projectError,
+  // } = useQuery({
+  //   queryKey: ["projects"],
+  //   queryFn: async () => {
+  //     const response = await axios.get("/api/project");
+  //     return response.data as InferSelectModel<typeof projectTable>[];
+  //   },
+  // });
 
   if (isLoading) {
+    return (
+      <div className="flex w-full items-center justify-center">
+        <Loader2Icon className="animate-spin"></Loader2Icon>Yükleniyor...
+      </div>
+    );
+  }
+  if (loading) {
     return (
       <div className="flex w-full items-center justify-center">
         <Loader2Icon className="animate-spin"></Loader2Icon>Yükleniyor...
@@ -34,6 +62,16 @@ const ProjelerForm = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+  if (personelError) {
+    return <div>Error: {personelError.message}</div>;
+  }
+
+  if (!personels) {
+    return;
+  }
+
+  // console.log(projects);
+  // console.log(personels);
 
   const projectSchema = z.object({
     projectName: z

@@ -1,1 +1,0 @@
-ALTER TABLE "personel" RENAME COLUMN "resume" TO "files";

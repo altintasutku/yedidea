@@ -36,10 +36,21 @@ CREATE TABLE IF NOT EXISTS "personel" (
 	"name" text NOT NULL,
 	"sector" text NOT NULL,
 	"age" numeric NOT NULL,
-	"resume" text NOT NULL,
+	"files" text NOT NULL,
+	"gender" text NOT NULL,
+	"phone" text NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp,
 	"created_by" uuid NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "project_personel_relation" (
+	"project_id" uuid NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "project_personel" (
+	"personel_price" numeric NOT NULL,
+	"personel_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "projects" (
