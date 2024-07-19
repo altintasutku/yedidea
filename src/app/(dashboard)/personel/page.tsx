@@ -20,11 +20,15 @@ const PersonelPage = async () => {
   return (
     <ContentLayout title="Personel">
       <DashboardBreadcrumb page="Personel" />
-      <div className="w-full flex justify-end">
+      <div className="flex w-full justify-end">
         <CreatePersonelButton />
       </div>
 
-      <DataTable DialogContent={EditPersonelDialog} columns={personelColumns} data={data} />
+      <DataTable
+        DialogContent={EditPersonelDialog}
+        columns={personelColumns}
+        data={data}
+      />
     </ContentLayout>
   );
 };

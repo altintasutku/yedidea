@@ -1,6 +1,6 @@
 "use server";
 
-import { eq } from 'drizzle-orm';
+import { eq } from "drizzle-orm";
 import { join } from "path";
 import { stat, mkdir, writeFile, rm } from "fs/promises";
 import mime from "mime";
@@ -8,6 +8,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { personelTable } from "@/lib/schema";
 import { getAuthSession } from "@/lib/auth";
+import exp from "constants";
 
 export async function createPersonel(
   prevState: any,
@@ -92,7 +93,9 @@ export async function createPersonel(
   }
 }
 
-export async function deletePersonel(items: (typeof personelTable.$inferSelect)[]) {
+export async function deletePersonel(
+  items: (typeof personelTable.$inferSelect)[],
+) {
   try {
     items.forEach(async (item) => {
       await db.delete(personelTable).where(eq(personelTable.id, item.id));
@@ -104,7 +107,6 @@ export async function deletePersonel(items: (typeof personelTable.$inferSelect)[
       const filePath = join(publicDir, item.files);
       await rm(filePath);
     });
-
 
     revalidatePath("/personel");
   } catch (e) {

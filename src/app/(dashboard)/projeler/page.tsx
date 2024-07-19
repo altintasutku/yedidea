@@ -10,19 +10,15 @@ import {
 import { ContentLayout } from "@/components/ContentLayout";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/DataTable";
 import Link from "next/link";
 import ProjelerForm from "@/components/dashboard/Forms/ProjelerForm";
 import { ProjelerColumns } from "@/components/dashboard/Columns/ProjelerColumns";
 import { db } from "@/lib/db";
-import { projectTable } from "@/lib/schema";
+import { personelTable, projectTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
+import { personelColumns } from "@/components/dashboard/Columns/PersonelColumns";
 
 const ProjelerPage = async () => {
   const session = await getAuthSession();
@@ -34,7 +30,7 @@ const ProjelerPage = async () => {
 
   return (
     <ContentLayout title="Projeler">
-      <DashboardBreadcrumb page="Projeler"/>
+      <DashboardBreadcrumb page="Projeler" />
 
       <Card className="mt-4 w-full">
         <CardHeader>

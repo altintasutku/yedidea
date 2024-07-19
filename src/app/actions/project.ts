@@ -7,9 +7,7 @@ import { projectSchema } from "@/lib/zodSchemas";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-export const createProject = async (
-  values: z.infer<typeof projectSchema>,
-) => {
+export const createProject = async (values: z.infer<typeof projectSchema>) => {
   const session = await getAuthSession();
   if (!session?.user.id) {
     return null;
@@ -23,5 +21,5 @@ export const createProject = async (
     })
     .returning();
 
-    revalidatePath("/projeler");
+  revalidatePath("/projeler");
 };
