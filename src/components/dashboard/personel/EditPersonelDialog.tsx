@@ -8,7 +8,6 @@ import {
 import React from "react";
 import PersonelForm from "../Forms/PersonelForm";
 import { Row } from "@tanstack/react-table";
-import { Card } from "@/components/ui/card";
 import ProjectRelationCard from "./ProjectRelationCard";
 
 const EditPersonelDialog = ({ row }: { row: Row<any> }) => {
@@ -27,44 +26,3 @@ const EditPersonelDialog = ({ row }: { row: Row<any> }) => {
 };
 
 export default EditPersonelDialog;
-
-// <div className="grid w-full grid-cols-2 gap-x-2">
-// <FormField
-//   control={form.control}
-//   name="project"
-//   render={({ field }) => (
-//     <FormItem>
-//       <FormLabel>Proje Ata</FormLabel>
-//       <FormControl>
-//         <Select {...field}>
-//           <SelectTrigger>
-//             <SelectValue placeholder="Proje" />
-//           </SelectTrigger>
-//           <SelectContent>
-//             {projects.map((project) => (
-//               <SelectItem key={project.id} value={project.id}>
-//                 {project.projectName}
-//               </SelectItem>
-//             ))}
-//           </SelectContent>
-//         </Select>
-//       </FormControl>
-//       <FormDescription>Personelin atandığı proje</FormDescription>
-//     </FormItem>
-//   )}
-// />
-// <FormField
-//   control={form.control}
-//   name="price"
-//   render={({ field }) => (
-//     <FormItem>
-//       <FormLabel>Ücret</FormLabel>
-//       <FormControl>
-//         <Input {...field} type="number" />
-//       </FormControl>
-//       <FormDescription>Personelin ücreti.</FormDescription>
-//       <FormMessage />
-//     </FormItem>
-//   )}
-// />
-// </div>

@@ -41,9 +41,10 @@ export type PersonelForm = z.infer<typeof personelFormSchema>;
 type Props = Readonly<{
   defaultValues?: Partial<PersonelForm>;
   action?: "create" | "update";
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }>;
 
-const PersonelForm = ({ defaultValues, action = "create" }: Props) => {
+const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(createPersonel, {
     message: "",
@@ -63,6 +64,9 @@ const PersonelForm = ({ defaultValues, action = "create" }: Props) => {
   useEffect(() => {
     if (state.status === "success") {
       form.reset();
+      if (setOpen) {
+        setOpen(false);
+      }
     }
   }, [state])
 
@@ -95,8 +99,8 @@ const PersonelForm = ({ defaultValues, action = "create" }: Props) => {
                     <SelectValue placeholder="Cinsiyet" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="MALE">Erkek</SelectItem>
-                    <SelectItem value="FEMALE">Kadın</SelectItem>
+                    <SelectItem value="Erkek">Erkek</SelectItem>
+                    <SelectItem value="Kadın">Kadın</SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>

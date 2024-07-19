@@ -1,5 +1,5 @@
 {
-  "id": "29c3f4e2-d201-4729-994b-35e11c16b477",
+  "id": "afcff615-49ea-4421-b98a-e737810a6339",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -220,8 +220,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.project_personel_relation": {
-      "name": "project_personel_relation",
+    "public.project_personel": {
+      "name": "project_personel",
       "schema": "",
       "columns": {
         "project_id": {
@@ -229,17 +229,7 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.project_personel": {
-      "name": "project_personel",
-      "schema": "",
-      "columns": {
+        },
         "personel_price": {
           "name": "personel_price",
           "type": "numeric",

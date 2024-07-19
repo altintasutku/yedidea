@@ -9,6 +9,7 @@ import { personelTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import CreatePersonelButton from "@/components/dashboard/personel/CreatePersonelButton";
 import EditPersonelDialog from "@/components/dashboard/personel/EditPersonelDialog";
+import ProjectRelationCard from "@/components/dashboard/personel/ProjectRelationCard";
 
 const PersonelPage = async () => {
   const session = await getAuthSession();
