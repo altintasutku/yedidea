@@ -10,7 +10,11 @@ import PersonelForm from "../Forms/PersonelForm";
 import { Row } from "@tanstack/react-table";
 import ProjectRelationCard from "./ProjectRelationCard";
 
-const EditPersonelDialog = ({ row }: { row: Row<any> }) => {
+type Props = Readonly<{
+  row: Row<any>;
+}>;
+
+const EditPersonelDialog = ({ row }: Props) => {
   return (
     <DialogContent className="max-w-[80dvw]">
       <DialogHeader>
@@ -19,7 +23,7 @@ const EditPersonelDialog = ({ row }: { row: Row<any> }) => {
       <div className="grid grid-cols-2 gap-x-4 divide-x">
         <PersonelForm action="update" defaultValues={row.original} />
 
-        <ProjectRelationCard />
+        <ProjectRelationCard personelId={row.original.id} />
       </div>
     </DialogContent>
   );

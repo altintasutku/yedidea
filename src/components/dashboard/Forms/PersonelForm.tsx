@@ -50,14 +50,13 @@ const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
     message: "",
     status: "idle",
   });
-  
 
   const form = useForm<PersonelForm>({
     mode: "onBlur",
     resolver: zodResolver(personelFormSchema),
-    defaultValues: { 
+    defaultValues: {
       ...defaultValues,
-      files: undefined
+      files: undefined,
     },
   });
 
@@ -68,7 +67,7 @@ const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
         setOpen(false);
       }
     }
-  }, [state])
+  }, [state]);
 
   return (
     <Form {...form}>
