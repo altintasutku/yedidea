@@ -1,5 +1,5 @@
 {
-  "id": "afcff615-49ea-4421-b98a-e737810a6339",
+  "id": "78edbe8b-66a2-4fdd-ad5b-5743ccb1747e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -230,6 +230,18 @@
           "primaryKey": false,
           "notNull": true
         },
+        "project_name": {
+          "name": "project_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "project_price": {
+          "name": "project_price",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
         "personel_price": {
           "name": "personel_price",
           "type": "numeric",
@@ -238,6 +250,25 @@
         },
         "personel_id": {
           "name": "personel_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true

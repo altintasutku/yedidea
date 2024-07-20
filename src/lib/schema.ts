@@ -7,6 +7,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
+import { create } from "domain";
 
 export const userRoles = pgEnum("user_roles", ["admin", "user"]);
 
@@ -90,9 +91,17 @@ export const projectRelations = relations(projectTable, ({ one, many }) => ({
 
 export const projectPersonelTable = pgTable("project_personel", {
   projectId: uuid("project_id").notNull(),
+  projectName: text("project_name").notNull(),
+  projectPrice: numeric("project_price").notNull(),
   personelPrice: numeric("personel_price").notNull(),
   personelId: uuid("personel_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
+  createdBy: uuid("created_by").notNull(),
 });
+
+export type ProjectPersonelSelect = typeof projectPersonelTable.$inferSelect;
+export type ProjectPersonelInsert = typeof projectPersonelTable.$inferInsert;
 
 export const projectPersonelTableRelations = relations(
   projectPersonelTable,
@@ -104,6 +113,10 @@ export const projectPersonelTableRelations = relations(
     project: one(projectTable, {
       fields: [projectPersonelTable.projectId],
       references: [projectTable.id],
+    }),
+    createdBy: one(userTable, {
+      fields: [projectPersonelTable.createdBy],
+      references: [userTable.id],
     }),
   }),
 );
