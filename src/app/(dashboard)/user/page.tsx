@@ -4,36 +4,36 @@ import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/DataTable";
-import ProjelerForm from "@/components/dashboard/Forms/ProjelerForm";
-import { ProjelerColumns } from "@/components/dashboard/Columns/ProjelerColumns";
 import { db } from "@/lib/db";
-import { projectTable } from "@/lib/schema";
+import { userTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
+import UserForm from "@/components/dashboard/Forms/UserForm";
+import { userColumns } from "@/components/dashboard/Columns/UserColumns";
 
-const ProjelerPage = async () => {
+const UserPage = async () => {
   const session = await getAuthSession();
   if (!session) {
     return redirect("/login");
   }
 
-  const data = await db.select().from(projectTable);
+  const data = await db.select().from(userTable);
 
   return (
-    <ContentLayout title="Projeler">
-      <DashboardBreadcrumb page="Projeler" />
+    <ContentLayout title="Sistem Kullanıcıları">
+      <DashboardBreadcrumb page="Sistem Kullanıcıları" />
 
       <Card className="mt-4 w-full">
         <CardHeader>
-          <CardTitle>Proje Ekle</CardTitle>
+          <CardTitle>Sistem Kullanıcısı Ekle</CardTitle>
         </CardHeader>
         <CardContent>
-          <ProjelerForm />
+          <UserForm />
         </CardContent>
       </Card>
 
-      <DataTable columns={ProjelerColumns} data={data} />
+      <DataTable columns={userColumns} data={data} />
     </ContentLayout>
   );
 };
 
-export default ProjelerPage;
+export default UserPage;

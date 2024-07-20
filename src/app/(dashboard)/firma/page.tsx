@@ -11,6 +11,10 @@ import { firmaColumns } from "@/components/dashboard/Columns/FirmaColumns";
 import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
+import CreateFirmButton from "@/components/dashboard/firm/CreateFirmButton";
+import EditFirmDialog from "@/components/dashboard/firm/EditFirmDialog";
+
+export const dynamic = 'force-dynamic'
 
 const FirmaPage = async () => {
   const session = await getAuthSession();
@@ -24,16 +28,11 @@ const FirmaPage = async () => {
     <ContentLayout title="Firma">
       <DashboardBreadcrumb page="Firma" />
 
-      <Card className="mt-4 w-full">
-        <CardHeader>
-          <CardTitle>Firma Ekle</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <FirmaForm />
-        </CardContent>
-      </Card>
+      <div className="flex w-full justify-end">
+        <CreateFirmButton />
+      </div>
 
-      <DataTable columns={firmaColumns} data={data} />
+      <DataTable DialogContent={EditFirmDialog} columns={firmaColumns} data={data} />
     </ContentLayout>
   );
 };

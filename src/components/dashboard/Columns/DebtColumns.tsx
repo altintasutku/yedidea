@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowUpDownIcon, MoreHorizontalIcon } from "lucide-react";
+import { ArrowUpDownIcon, MoreHorizontalIcon, SortAsc, SortDesc } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -63,14 +63,38 @@ export const debtColumns: ColumnDef<any>[] = [
   //   },
   {
     accessorKey: "name",
-    header: () => <div>İsim</div>,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        <div>İsim</div>
+        {column.getIsSorted() === "asc" ? (
+          <SortAsc className="ml-2 h-4 w-4" />
+        ) : (
+          <SortDesc className="ml-2 h-4 w-4" />
+        )}
+      </Button>
+    ),
     cell: ({ row }) => {
       return <div className="font-bold">{row.getValue("name")}</div>;
-    },
+    }
   },
   {
     accessorKey: "amount",
-    header: () => <div className="text-right">Fiyat</div>,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        <div>Fiyat</div>
+        {column.getIsSorted() === "asc" ? (
+          <SortAsc className="ml-2 h-4 w-4" />
+        ) : (
+          <SortDesc className="ml-2 h-4 w-4" />
+        )}
+      </Button>
+    ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
 
@@ -80,7 +104,7 @@ export const debtColumns: ColumnDef<any>[] = [
         currency: "TRY",
       }).format(amount);
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="font-medium">{formatted}</div>;
     },
   },
   {

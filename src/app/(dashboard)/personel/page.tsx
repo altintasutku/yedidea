@@ -10,6 +10,8 @@ import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import CreatePersonelButton from "@/components/dashboard/personel/CreatePersonelButton";
 import EditPersonelDialog from "@/components/dashboard/personel/EditPersonelDialog";
 
+export const dynamic = 'force-dynamic'
+
 const PersonelPage = async () => {
   const session = await getAuthSession();
   if (!session) {

@@ -20,6 +20,7 @@ export async function createPersonel(
   const sector = formData.get("sector") as string;
   const file = formData.get("files") as File;
   const gender = formData.get("gender") as string;
+  const photo = formData.get("photo") as File;
 
   const session = await getAuthSession();
 
@@ -30,15 +31,7 @@ export async function createPersonel(
     };
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const relativeUploadDir = `/uploads/${new Date(Date.now())
-    .toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-    .replace(/\//g, "-")}`;
-
+  const relativeUploadDir = `/uploads/${getToday()}`;
   const uploadDir = join(process.cwd(), "public", relativeUploadDir);
 
   try {
@@ -60,13 +53,15 @@ export async function createPersonel(
   }
 
   try {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const filename = `${file.name.replace(
-      /\.[^/.]+$/,
-      "",
-    )}-${uniqueSuffix}.${mime.getExtension(file.type)}`;
-    await writeFile(`${uploadDir}/${filename}`, buffer);
+    const filename = await saveFile(file, uploadDir);
     const fileUrl = `${relativeUploadDir}/${filename}`;
+
+    const ppFilename = await saveFile(
+      photo,
+      uploadDir,
+      `pp-${session.user.id}`,
+    );
+    const ppFileUrl = `${relativeUploadDir}/${ppFilename}`;
 
     // Save to database
     await db.insert(personelTable).values({
@@ -75,6 +70,7 @@ export async function createPersonel(
       age,
       sector,
       gender,
+      photo: ppFileUrl,
       files: fileUrl,
       createdBy: session.user.id,
     });
@@ -103,13 +99,41 @@ export async function deletePersonel(
     // remove files
     const publicDir = join(process.cwd(), "public");
     items.forEach(async (item) => {
-      if (!item.files) return;
-      const filePath = join(publicDir, item.files);
-      await rm(filePath);
+      if (item.files) {
+        const filePath = join(publicDir, item.files);
+        await rm(filePath);
+      }
+      if(item.photo) {
+        const filePath = join(publicDir, item.photo);
+        await rm(filePath);
+      }
     });
 
     revalidatePath("/personel");
   } catch (e) {
     console.error(e);
   }
+}
+
+async function saveFile(file: File, uploadDir: string, filename?: string) {
+  const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+  filename = `${(filename || file.name).replace(
+    /\.[^/.]+$/,
+    "",
+  )}-${uniqueSuffix}.${mime.getExtension(file.type)}`;
+
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  await writeFile(`${uploadDir}/${filename}`, buffer);
+  return filename;
+}
+
+function getToday() {
+  return new Date(Date.now())
+    .toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
+    .replace(/\//g, "-");
 }

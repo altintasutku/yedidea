@@ -30,6 +30,7 @@ export const personelTable = pgTable("personel", {
   sector: text("sector").notNull(),
   age: numeric("age").notNull(),
   files: text("files").notNull(),
+  photo: text("photo").notNull(),
   gender: text("gender").notNull(),
   phone: text("phone").notNull(),
 

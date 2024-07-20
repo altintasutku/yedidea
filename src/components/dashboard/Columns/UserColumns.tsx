@@ -21,8 +21,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { deletePersonel } from "@/app/actions/personel";
 import Image from "next/image";
+import { deleteUser } from "@/app/actions/user";
 
-export const personelColumns: ColumnDef<any>[] = [
+export const userColumns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -52,28 +53,13 @@ export const personelColumns: ColumnDef<any>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "photo",
-    header: () => <div>Fotoğraf</div>,
-    cell: ({ row }) => {
-      return (
-        <Image
-          src={row.getValue("photo")}
-          alt="Profile"
-          height={40}
-          width={40}
-          className="h-10 w-10 rounded-full object-cover"
-        />
-      );
-    },
-  },
-  {
-    accessorKey: "name",
+    accessorKey: "email",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        <div>İsim</div>
+        <div>Email</div>
         {column.getIsSorted() === "asc" ? (
           <SortAsc className="ml-2 h-4 w-4" />
         ) : (
@@ -82,17 +68,17 @@ export const personelColumns: ColumnDef<any>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      return <div className="font-bold">{row.getValue("name")}</div>;
+      return <div className="font-bold">{row.getValue("email")}</div>;
     },
   },
   {
-    accessorKey: "sector",
+    accessorKey: "role",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        <div>Sektör</div>
+        <div>Rol</div>
         {column.getIsSorted() === "asc" ? (
           <SortAsc className="ml-2 h-4 w-4" />
         ) : (
@@ -100,75 +86,16 @@ export const personelColumns: ColumnDef<any>[] = [
         )}
       </Button>
     ),
-    cell: ({ row }) => <div>{row.getValue("sector")}</div>,
-  },
-  {
-    accessorKey: "age",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        <div>Yaş</div>
-        {column.getIsSorted() === "asc" ? (
-          <SortAsc className="ml-2 h-4 w-4" />
-        ) : (
-          <SortDesc className="ml-2 h-4 w-4" />
-        )}
-      </Button>
-    ),
-    cell: ({ row }) => <div>{row.getValue("age")}</div>,
-  },
-  {
-    accessorKey: "gender",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        <div>Cinsiyet</div>
-        {column.getIsSorted() === "asc" ? (
-          <SortAsc className="ml-2 h-4 w-4" />
-        ) : (
-          <SortDesc className="ml-2 h-4 w-4" />
-        )}
-      </Button>
-    ),
-    cell: ({ row }) => <div>{row.getValue("gender")}</div>,
+    cell: ({ row }) => {
+      return <div className="font-bold">{row.getValue("role")}</div>;
+    },
   },
   {
     id: "actions",
     enableHiding: false,
-    header(props) {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Genel Seçenekler</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation();
-                const selectedRows = props.table.getSelectedRowModel().rows;
-                deletePersonel(selectedRows.map((row) => row.original));
-                props.table.resetRowSelection();
-              }}
-              className={buttonVariants({ variant: "destructive" })}
-            >
-              <Trash2Icon className="mr-2 h-4 w-4" />
-              Seçili olanların HEPSİNİ sil
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
     cell: ({ row, table }) => {
-      const wps = row.original; // TODO
- 
+      const user = row.original;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -178,18 +105,18 @@ export const personelColumns: ColumnDef<any>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>WPS Seçenekler</DropdownMenuLabel>
+            <DropdownMenuLabel>Kullanıcı Seçenekler</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(wps.wps)}// TODO
+              onClick={() => navigator.clipboard.writeText(user.id)}
             >
               <CopyIcon className="mr-2 h-4 w-4" />
-              Personel ID Kopyala
+              Kullanıcı ID Kopyala
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();
-                deletePersonel([row.original]);
+                deleteUser(row.original);
                 table.resetRowSelection();
               }}
             >

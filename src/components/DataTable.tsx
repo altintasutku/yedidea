@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
+  FilterFn,
   SortingState,
   VisibilityState,
   flexRender,
@@ -31,21 +32,50 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-} from "@/components/ui/dialog";
+import { Dialog } from "@/components/ui/dialog";
 import PersonelForm from "./dashboard/Forms/PersonelForm";
+import {
+  RankingInfo,
+  rankItem,
+  compareItems,
+} from "@tanstack/match-sorter-utils";
+import DebouncedInput from "./ui/debounced-input";
+
+declare module "@tanstack/react-table" {
+  //add fuzzy filter to the filterFns
+  interface FilterFns {
+    fuzzy: FilterFn<unknown>;
+  }
+  interface FilterMeta {
+    itemRank: RankingInfo;
+  }
+}
+
+// Define a custom fuzzy filter function that will apply ranking info to rows (using match-sorter utils)
+const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value);
+
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  });
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed;
+};
 
 export function DataTable({
   columns,
   data,
-  DialogContent
+  DialogContent,
 }: {
   columns: ColumnDef<any>[];
   data: any;
   DialogContent?: React.FC<{ row: any }>;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
@@ -62,6 +92,10 @@ export function DataTable({
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
+    globalFilterFn: "fuzzy",
+    filterFns: {
+      fuzzy: fuzzyFilter, //define as a filter function that can be used in column definitions
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -73,20 +107,18 @@ export function DataTable({
       columnFilters,
       columnVisibility,
       rowSelection,
+      globalFilter,
     },
   });
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter by..."
-          // TODO: Implement filtering
-          // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          // onChange={(event) =>
-          //   table.getColumn("email")?.setFilterValue(event.target.value)
-          // }
-          className="max-w-sm"
+      <div className="flex items-center py-4 space-x-2">
+        <DebouncedInput
+          value={globalFilter ?? ""}
+          onChange={(value) => setGlobalFilter(String(value))}
+          className="font-lg border-block border p-2 shadow"
+          placeholder="Ara..."
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -159,12 +191,14 @@ export function DataTable({
                       </TableCell>
                     ))}
                   </TableRow>
-                  {DialogContent && <Dialog
-                    open={openDialogIndex === index}
-                    onOpenChange={(v) => setOpenDialogIndex(v ? index : null)}
-                  >
-                    <DialogContent row={row} />
-                  </Dialog>}
+                  {DialogContent && (
+                    <Dialog
+                      open={openDialogIndex === index}
+                      onOpenChange={(v) => setOpenDialogIndex(v ? index : null)}
+                    >
+                      <DialogContent row={row} />
+                    </Dialog>
+                  )}
                 </React.Fragment>
               ))
             ) : (
