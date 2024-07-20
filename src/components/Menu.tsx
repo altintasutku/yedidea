@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Ellipsis, LogOut } from "lucide-react";
+import { Ellipsis, Loader2Icon, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -12,10 +12,10 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-  TooltipProvider
+  TooltipProvider,
 } from "@/components/ui/tooltip";
 import { CollapseMenuButton } from "./CollapseMenuButton";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -25,21 +25,26 @@ export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
   const menuList = getMenuList(pathname);
 
+  const session = useSession();
+
+  if (!session.data || !session.data.user.role)
+    return <Loader2Icon className="animate-spin" />;
+
   return (
     <ScrollArea className="[&>div>div[style]]:!block">
       <nav className="mt-8 h-full w-full">
-        <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-32px-10px)] lg:min-h-[calc(100vh-32px-40px-32px-10px)] items-start space-y-1 px-2">
+        <ul className="flex min-h-[calc(100vh-48px-36px-16px-32px-10px)] flex-col items-start space-y-1 px-2 lg:min-h-[calc(100vh-32px-40px-32px-10px)]">
           {menuList.map(({ groupLabel, menus }, index) => (
             <li className={cn("w-full", groupLabel ? "pt-5" : "")} key={index}>
               {(isOpen && groupLabel) || isOpen === undefined ? (
-                <p className="text-sm font-medium text-muted-foreground px-4 pb-2 max-w-[248px] truncate">
+                <p className="max-w-[248px] truncate px-4 pb-2 text-sm font-medium text-muted-foreground">
                   {groupLabel}
                 </p>
               ) : !isOpen && isOpen !== undefined && groupLabel ? (
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger className="w-full">
-                      <div className="w-full flex justify-center items-center">
+                      <div className="flex w-full items-center justify-center">
                         <Ellipsis className="h-5 w-5" />
                       </div>
                     </TooltipTrigger>
@@ -52,15 +57,17 @@ export function Menu({ isOpen }: MenuProps) {
                 <p className="pb-2"></p>
               )}
               {menus.map(
-                ({ href, label, icon: Icon, active, submenus }, index) =>
-                  submenus.length === 0 ? (
+                ({ href, label, icon: Icon, active, submenus, role }, index) =>
+                  !role.includes(
+                    session.data.user.role,
+                  ) ? null : submenus.length === 0 ? (
                     <div className="w-full" key={index}>
                       <TooltipProvider disableHoverableContent>
                         <Tooltip delayDuration={100}>
                           <TooltipTrigger asChild>
                             <Button
                               variant={active ? "secondary" : "ghost"}
-                              className="w-full justify-start h-10 mb-1"
+                              className="mb-1 h-10 w-full justify-start"
                               asChild
                             >
                               <Link href={href}>
@@ -74,7 +81,7 @@ export function Menu({ isOpen }: MenuProps) {
                                     "max-w-[200px] truncate",
                                     isOpen === false
                                       ? "-translate-x-96 opacity-0"
-                                      : "translate-x-0 opacity-100"
+                                      : "translate-x-0 opacity-100",
                                   )}
                                 >
                                   {label}
@@ -100,11 +107,11 @@ export function Menu({ isOpen }: MenuProps) {
                         isOpen={isOpen}
                       />
                     </div>
-                  )
+                  ),
               )}
             </li>
           ))}
-          <li className="w-full grow flex items-end">
+          <li className="flex w-full grow items-end">
             <TooltipProvider disableHoverableContent>
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
@@ -113,7 +120,7 @@ export function Menu({ isOpen }: MenuProps) {
                       signOut();
                     }}
                     variant="outline"
-                    className="w-full justify-center h-10 mt-5"
+                    className="mt-5 h-10 w-full justify-center"
                   >
                     <span className={cn(isOpen === false ? "" : "mr-4")}>
                       <LogOut size={18} />
@@ -121,7 +128,7 @@ export function Menu({ isOpen }: MenuProps) {
                     <p
                       className={cn(
                         "whitespace-nowrap",
-                        isOpen === false ? "opacity-0 hidden" : "opacity-100"
+                        isOpen === false ? "hidden opacity-0" : "opacity-100",
                       )}
                     >
                       Çıkış Yap
