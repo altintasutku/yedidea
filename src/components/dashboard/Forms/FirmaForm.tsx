@@ -74,47 +74,45 @@ const FirmaForm = ({ defaultValues, action = "create", setOpen }: Props) => {
 
   return (
     <Form {...form}>
-      <ScrollArea className="h-[85dvh]">
-        <form action={formAction} className="space-y-4 p-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>İsim</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormDescription>Firmanın ismi.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="sector"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sektör</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormDescription>Firmanın sektörü.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={pending}>
-            {pending ? (
-              <Loader2Icon className="animate-spin" />
-            ) : action === "create" ? (
-              "Oluştur"
-            ) : (
-              "Güncelle"
-            )}
-          </Button>
-        </form>
-      </ScrollArea>
+      <form action={formAction} className="space-y-4 p-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>İsim</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormDescription>Firmanın ismi.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="sector"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sektör</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormDescription>Firmanın sektörü.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" disabled={pending}>
+          {pending ? (
+            <Loader2Icon className="animate-spin" />
+          ) : action === "create" ? (
+            "Oluştur"
+          ) : (
+            "Güncelle"
+          )}
+        </Button>
+      </form>
     </Form>
   );
 };
