@@ -12,13 +12,11 @@ import FirmaForm from "../Forms/FirmaForm";
 
 const EditFirmDialog = ({ row }: { row: Row<any> }) => {
   return (
-    <DialogContent className="max-w-[80dvw]">
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>Firma Kartı</DialogTitle>
       </DialogHeader>
-      <div className="grid grid-cols-2 gap-x-4 divide-x">
-        <FirmaForm action="update" defaultValues={row.original} />
-      </div>
+      <FirmaForm action="update" defaultValues={row.original} />
     </DialogContent>
   );
 };
