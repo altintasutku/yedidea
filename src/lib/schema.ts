@@ -140,6 +140,9 @@ export const debtRelations = relations(debtTable, ({ one }) => ({
   }),
 }));
 
+export type DebtSelect = typeof debtTable.$inferSelect;
+export type DebtInsert = typeof debtTable.$inferInsert;
+
 export const incomeTable = pgTable("incomes", {
   id: uuid("id")
     .primaryKey()
