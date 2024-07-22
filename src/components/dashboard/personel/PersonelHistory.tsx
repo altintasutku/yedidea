@@ -16,7 +16,11 @@ type Props = Readonly<{
 }>;
 
 const PersonelHistory = ({ row }: Props) => {
-  const { data: history, isLoading, refetch } = useQuery({
+  const {
+    data: history,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["personelHistory", row.original.id],
     queryFn: async () => {
       const { data } = await axios.get(
@@ -31,7 +35,16 @@ const PersonelHistory = ({ row }: Props) => {
       await axios.delete(`/api/project-personel?id=${values.id}`);
     },
     onSuccess: () => {
-        refetch()
+      refetch();
+    },
+  });
+
+  const { mutate: changeActive } = useMutation({
+    mutationFn: async (values: ProjectPersonelSelect) => {
+      await axios.get(`/api/project-personel/change-active?id=${values.id}`);
+    },
+    onSuccess: () => {
+      refetch();
     },
   });
 
@@ -49,12 +62,22 @@ const PersonelHistory = ({ row }: Props) => {
       {history ? (
         <ul className="space-y-4 divide-y overflow-auto py-4">
           {history.map((item) => (
-            <li key={item.id} className="group flex flex-col gap-2">
+            <li key={item.id} className="group flex flex-col gap-2 p-2">
               <div className="flex items-center gap-3">
                 {item.active ? (
-                  <span className="text-green-500">Aktif</span>
+                  <span
+                    onClick={() => changeActive(item)}
+                    className="cursor-pointer text-green-500 transition-all hover:scale-110 select-none hover:bg-green-100/20 rounded-md p-1"
+                  >
+                    Aktif
+                  </span>
                 ) : (
-                  <span className="text-red-500">Pasif</span>
+                  <span
+                    onClick={() => changeActive(item)}
+                    className="cursor-pointer text-red-500 transition-all hover:scale-110 select-none hover:bg-red-100/20 rounded-md p-1"
+                  >
+                    Pasif
+                  </span>
                 )}
                 <div className="flex flex-1 flex-col gap-2">
                   <div className="flex justify-between">

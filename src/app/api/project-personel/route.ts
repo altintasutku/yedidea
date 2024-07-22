@@ -17,7 +17,7 @@ export const GET = async (request: NextRequest) => {
       where: eq(projectPersonelTable.personelId, personelId),
       with: {
         project: true,
-      }
+      },
     });
 
     return NextResponse.json(projectHistory);
@@ -35,11 +35,13 @@ export const DELETE = async (request: NextRequest) => {
   }
 
   try {
-    await db.delete(projectPersonelTable).where(eq(projectPersonelTable.id, id));
+    await db
+      .delete(projectPersonelTable)
+      .where(eq(projectPersonelTable.id, id));
 
     return NextResponse.json({ message: "Success" });
   } catch (e) {
     console.log("error", e);
     return NextResponse.error();
   }
-}
+};
