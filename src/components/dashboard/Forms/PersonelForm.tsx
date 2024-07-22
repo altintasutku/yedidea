@@ -29,6 +29,8 @@ import { createPersonel } from "@/app/actions/personel";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import defaultPp from "@/lib/data/default-pp.png";
+import cities from "@/lib/data/cities";
+import district from "@/lib/data/district";
 
 export const personelFormSchema = z.object({
   name: z.string(),
@@ -38,6 +40,8 @@ export const personelFormSchema = z.object({
   gender: z.string(),
   phone: z.string(),
   photo: z.any(),
+  city: z.string(),
+  district: z.string(),
 });
 
 export type PersonelForm = z.infer<typeof personelFormSchema>;
@@ -57,6 +61,11 @@ const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
 
   const [profilePhoto, setProfilePhoto] = React.useState<File>();
   const ppInputRef = React.useRef<HTMLInputElement>(null);
+  const [cityId, setCityId] = React.useState<string | undefined>();
+  const filteredDistrict = React.useMemo(
+    () => district.filter((d) => d.il_id === cityId),
+    [cityId],
+  );
 
   const form = useForm<PersonelForm>({
     mode: "onBlur",
@@ -195,6 +204,62 @@ const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
                   />
                 </FormControl>
                 <FormDescription>Personelin yaşı.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Şehir</FormLabel>
+                <FormControl>
+                  <Select
+                    {...field}
+                    onValueChange={(value) => {
+                      form.setValue("city", value);
+                      setCityId(cities.find((city) => city.name === value)?.id);
+                    }}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Şehir" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cities.map((city) => (
+                        <SelectItem key={city.id} value={city.name}>
+                          {city.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription>Personelin yaşadığı şehir.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="district"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>İlçe</FormLabel>
+                <FormControl>
+                  <Select {...field}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="İlçe" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {filteredDistrict.map((district) => (
+                        <SelectItem key={district.id} value={district.name}>
+                          {district.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription>Personelin yaşadığı ilçe.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

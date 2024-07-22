@@ -20,6 +20,8 @@ export const personelTable = pgTable("personel", {
   photo: text("photo").notNull(),
   gender: text("gender").notNull(),
   phone: text("phone").notNull(),
+  city: text("city").notNull(),
+  district: text("district").notNull(),
 
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),

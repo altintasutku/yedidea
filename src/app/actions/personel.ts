@@ -20,6 +20,8 @@ export async function createPersonel(
   const file = formData.get("files") as File;
   const gender = formData.get("gender") as string;
   const photo = formData.get("photo") as File;
+  const city = formData.get("city") as string;
+  const district = formData.get("district") as string;
 
   const session = await getAuthSession();
 
@@ -69,6 +71,8 @@ export async function createPersonel(
       age,
       sector,
       gender,
+      city,
+      district,
       photo: ppFileUrl,
       files: fileUrl,
       createdBy: session.user.id,
