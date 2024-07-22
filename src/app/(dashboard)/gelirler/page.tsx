@@ -31,11 +31,13 @@ import { ContentLayout } from "@/components/ContentLayout";
 import Link from "next/link";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { IncomeForm } from "@/components/dashboard/Forms/IncomeForm";
+import IncomeForm from "@/components/dashboard/Forms/IncomeForm";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import { incomeColumns } from "@/components/dashboard/Columns/IncomeColumns";
 import { incomeTable } from "@/lib/schema";
 import { db } from "@/lib/db";
+import CreateIncomeButton from "@/components/incomes/CreateIncomeButton";
+import EditIncomesDialog from "@/components/incomes/EditIncomesDialog";
 
 const GelirlerPage = async () => {
   const session = await getAuthSession();
@@ -48,48 +50,15 @@ const GelirlerPage = async () => {
     <ContentLayout title="Gelirler">
       <DashboardBreadcrumb page="Gelirler" />
 
-      <div className="grid grid-cols-2 gap-3">
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>Gelir Ekle</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <IncomeForm />
-          </CardContent>
-        </Card>
-
-        <Card className="w-full">
-          {/* TODO */}
-          <CardHeader>
-            <CardTitle>Önceden Alınanlar</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col gap-y-4">
-              <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px]">Invoice</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Method</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">INV001</TableCell>
-                    <TableCell>Paid</TableCell>
-                    <TableCell>Credit Card</TableCell>
-                    <TableCell className="text-right">$250.00</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="flex w-full justify-end">
+        <CreateIncomeButton />
       </div>
 
-      <DataTable columns={incomeColumns} data={data} />
+      <DataTable
+        DialogContent={EditIncomesDialog}
+        columns={incomeColumns}
+        data={data}
+      />
     </ContentLayout>
   );
 };

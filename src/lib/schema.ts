@@ -140,6 +140,9 @@ export const debtRelations = relations(debtTable, ({ one }) => ({
   }),
 }));
 
+export type DebtSelect = typeof debtTable.$inferSelect;
+export type DebtInsert = typeof debtTable.$inferInsert;
+
 export const incomeTable = pgTable("incomes", {
   id: uuid("id")
     .primaryKey()
@@ -150,6 +153,9 @@ export const incomeTable = pgTable("incomes", {
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
   createdBy: uuid("created_by").notNull(),
 });
+
+export type IncomeSelect = typeof incomeTable.$inferSelect;
+export type IncomeInsert = typeof incomeTable.$inferInsert;
 
 export const incomeRelations = relations(incomeTable, ({ one }) => ({
   createdBy: one(userTable, {
