@@ -34,10 +34,10 @@ import { redirect } from "next/navigation";
 import IncomeForm from "@/components/dashboard/Forms/IncomeForm";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import { incomeColumns } from "@/components/dashboard/Columns/IncomeColumns";
-import { incomeTable } from "@/lib/schema";
 import { db } from "@/lib/db";
 import CreateIncomeButton from "@/components/incomes/CreateIncomeButton";
 import EditIncomesDialog from "@/components/incomes/EditIncomesDialog";
+import { incomeTable } from "@/lib/schema/income";
 
 const GelirlerPage = async () => {
   const session = await getAuthSession();

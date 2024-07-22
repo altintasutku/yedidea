@@ -17,13 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { createPersonel } from "@/app/actions/personel";
 import Image from "next/image";

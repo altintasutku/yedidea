@@ -1,10 +1,10 @@
 import { db } from "@/lib/db";
-import { userTable } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { env } from "@/env";
+import { userTable } from "@/lib/schema/user";
 
 export const POST = async (req: Request) => {
   const body = await req.json();

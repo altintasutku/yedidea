@@ -3,7 +3,7 @@
 import { firmSchema } from "@/components/dashboard/Forms/FirmaForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { debtTable, firmTable } from "@/lib/schema";
+import { debtTable } from "@/lib/schema/debt";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -31,7 +31,7 @@ export const createExpense = async (
   revalidatePath("/giderler");
 
   return {
-    message: "WPS başarıyla oluşturuldu",
+    message: "Gider başarıyla oluşturuldu",
     status: "success",
   };
 };

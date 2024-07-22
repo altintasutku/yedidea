@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { projectTable } from "@/lib/schema";
+import { projectTable } from "@/lib/schema/project";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {

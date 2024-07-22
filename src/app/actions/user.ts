@@ -3,8 +3,8 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { userTable } from "@/lib/schema";
 import { getAuthSession } from "@/lib/auth";
+import { userTable } from "@/lib/schema/user";
 
 export async function createUser(
   prevState: any,

@@ -3,7 +3,7 @@
 import { debtSchema } from "@/components/dashboard/Forms/DebtForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { debtTable, incomeTable } from "@/lib/schema";
+import { debtTable } from "@/lib/schema/debt";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
