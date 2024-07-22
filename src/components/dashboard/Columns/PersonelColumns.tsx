@@ -100,7 +100,6 @@ export const personelColumns: ColumnDef<any>[] = [
         )}
       </Button>
     ),
-    cell: ({ row }) => <div>{row.getValue("sector")}</div>,
   },
   {
     accessorKey: "age",
@@ -117,7 +116,6 @@ export const personelColumns: ColumnDef<any>[] = [
         )}
       </Button>
     ),
-    cell: ({ row }) => <div>{row.getValue("age")}</div>,
   },
   {
     accessorKey: "gender",
@@ -134,7 +132,22 @@ export const personelColumns: ColumnDef<any>[] = [
         )}
       </Button>
     ),
-    cell: ({ row }) => <div>{row.getValue("gender")}</div>,
+  },
+  {
+    accessorKey: "city",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        <div>Şehir</div>
+        {column.getIsSorted() === "asc" ? (
+          <SortAsc className="ml-2 h-4 w-4" />
+        ) : (
+          <SortDesc className="ml-2 h-4 w-4" />
+        )}
+      </Button>
+    ),
   },
   {
     id: "actions",
