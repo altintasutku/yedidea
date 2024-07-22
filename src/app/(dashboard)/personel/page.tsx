@@ -5,10 +5,10 @@ import { redirect } from "next/navigation";
 import { DataTable } from "@/components/DataTable";
 import { personelColumns } from "@/components/dashboard/Columns/PersonelColumns";
 import { db } from "@/lib/db";
-import { personelTable, projectPersonelTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import CreatePersonelButton from "@/components/dashboard/personel/CreatePersonelButton";
 import EditPersonelDialog from "@/components/dashboard/personel/EditPersonelDialog";
+import { personelTable } from "@/lib/schema/personel";
 
 export const dynamic = 'force-dynamic'
 
@@ -18,7 +18,6 @@ const PersonelPage = async () => {
     return redirect("/login");
   }
   const data = await db.select().from(personelTable);
-  const projectPersonel = await db.select().from(projectPersonelTable);
 
   return (
     <ContentLayout title="Personel">

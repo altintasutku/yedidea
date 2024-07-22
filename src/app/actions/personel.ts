@@ -6,9 +6,8 @@ import { stat, mkdir, writeFile, rm } from "fs/promises";
 import mime from "mime";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { personelTable } from "@/lib/schema";
 import { getAuthSession } from "@/lib/auth";
-import exp from "constants";
+import { personelTable } from "@/lib/schema/personel";
 
 export async function createPersonel(
   prevState: any,
@@ -124,6 +123,7 @@ async function saveFile(file: File, uploadDir: string, filename?: string) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
+  //@ts-ignore
   await writeFile(`${uploadDir}/${filename}`, buffer);
   return filename;
 }

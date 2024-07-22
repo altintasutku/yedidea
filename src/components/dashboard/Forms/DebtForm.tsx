@@ -17,7 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
-import { createFirm } from "@/app/actions/firm";
 import { createExpense } from "@/app/actions/expenses";
 
 export const debtSchema = z.object({

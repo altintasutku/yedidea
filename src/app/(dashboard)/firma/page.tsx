@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import FirmaForm from "@/components/dashboard/Forms/FirmaForm";
 import { firmaColumns } from "@/components/dashboard/Columns/FirmaColumns";
 import { db } from "@/lib/db";
-import { firmTable } from "@/lib/schema";
+import { firmTable } from "@/lib/schema/firm";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import CreateFirmButton from "@/components/dashboard/firm/CreateFirmButton";
 import EditFirmDialog from "@/components/dashboard/firm/EditFirmDialog";

@@ -16,11 +16,11 @@ import { redirect } from "next/navigation";
 import { DebtForm } from "@/components/dashboard/Forms/DebtForm";
 import { debtColumns } from "@/components/dashboard/Columns/DebtColumns";
 import { db } from "@/lib/db";
-import { debtTable, incomeTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import CreatePersonelButton from "@/components/dashboard/personel/CreatePersonelButton";
 import CreateExpenseButton from "@/components/expenses/CreatePersonelButton";
 import EditExpensesDialog from "@/components/expenses/EditExpensesDialog";
+import { debtTable } from "@/lib/schema/debt";
 
 const GiderlerPage = async () => {
   const session = await getAuthSession();

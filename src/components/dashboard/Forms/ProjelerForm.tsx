@@ -8,8 +8,9 @@ import { useFormStatus } from "react-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { InferSelectModel } from "drizzle-orm";
-import { firmTable, personelTable, projectTable } from "@/lib/schema";
 import { Loader2Icon } from "lucide-react";
+import { firmTable } from "@/lib/schema/firm";
+import { personelTable } from "@/lib/schema/personel";
 
 const ProjelerForm = () => {
   const { pending } = useFormStatus();
@@ -32,17 +33,6 @@ const ProjelerForm = () => {
       return response.data as InferSelectModel<typeof personelTable>[];
     },
   });
-  // const {
-  //   data: projects,
-  //   isLoading: projectLoading,
-  //   error: projectError,
-  // } = useQuery({
-  //   queryKey: ["projects"],
-  //   queryFn: async () => {
-  //     const response = await axios.get("/api/project");
-  //     return response.data as InferSelectModel<typeof projectTable>[];
-  //   },
-  // });
 
   if (isLoading) {
     return (

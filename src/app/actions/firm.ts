@@ -3,7 +3,7 @@
 import { firmSchema } from "@/components/dashboard/Forms/FirmaForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { firmTable } from "@/lib/schema";
+import { firmTable } from "@/lib/schema/firm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 

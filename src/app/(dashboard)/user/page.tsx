@@ -5,10 +5,10 @@ import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/DataTable";
 import { db } from "@/lib/db";
-import { userTable } from "@/lib/schema";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import UserForm from "@/components/dashboard/Forms/UserForm";
 import { userColumns } from "@/components/dashboard/Columns/UserColumns";
+import { userTable } from "@/lib/schema/user";
 
 const UserPage = async () => {
   const session = await getAuthSession();

@@ -1,12 +1,12 @@
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import { db } from "./db";
-import { userTable } from "./schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { env } from "@/env";
 import bcrypt from "bcryptjs";
 import { AuthOptions, getServerSession } from "next-auth";
+import { userTable } from "./schema/user";
 
 export const authOptions: AuthOptions = {
   providers: [

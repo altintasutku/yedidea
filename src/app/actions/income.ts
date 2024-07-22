@@ -3,7 +3,7 @@
 import { debtSchema } from "@/components/dashboard/Forms/DebtForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { incomeTable } from "@/lib/schema";
+import { incomeTable } from "@/lib/schema/income";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
