@@ -154,6 +154,9 @@ export const incomeTable = pgTable("incomes", {
   createdBy: uuid("created_by").notNull(),
 });
 
+export type IncomeSelect = typeof incomeTable.$inferSelect;
+export type IncomeInsert = typeof incomeTable.$inferInsert;
+
 export const incomeRelations = relations(incomeTable, ({ one }) => ({
   createdBy: one(userTable, {
     fields: [incomeTable.createdBy],

@@ -8,17 +8,17 @@ import {
 import React from "react";
 
 import { Row } from "@tanstack/react-table";
-import DebtForm from "../dashboard/Forms/DebtForm";
+import IncomeForm from "../dashboard/Forms/IncomeForm";
 
-const EditExpensesDialog = ({ row }: { row: Row<any> }) => {
+const EditIncomesDialog = ({ row }: { row: Row<any> }) => {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Gider Kartı</DialogTitle>
+        <DialogTitle>Gelir Kartı</DialogTitle>
       </DialogHeader>
-      <DebtForm action="update" defaultValues={row.original} />
+      <IncomeForm action="update" defaultValues={row.original} />
     </DialogContent>
   );
 };
 
-export default EditExpensesDialog;
+export default EditIncomesDialog;
