@@ -9,6 +9,8 @@ import { ProjelerColumns } from "@/components/dashboard/Columns/ProjelerColumns"
 import { db } from "@/lib/db";
 import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import { projectTable } from "@/lib/schema/project";
+import CreateProjectButton from "@/components/dashboard/Projects/CreateProjectButton";
+import EditProjectDialog from "@/components/dashboard/Projects/EditProjectDialog";
 
 const ProjelerPage = async () => {
   const session = await getAuthSession();
@@ -22,16 +24,15 @@ const ProjelerPage = async () => {
     <ContentLayout title="Projeler">
       <DashboardBreadcrumb page="Projeler" />
 
-      <Card className="mt-4 w-full">
-        <CardHeader>
-          <CardTitle>Proje Ekle</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ProjelerForm />
-        </CardContent>
-      </Card>
+      <div className="flex w-full justify-end">
+        <CreateProjectButton />
+      </div>
 
-      <DataTable columns={ProjelerColumns} data={data} />
+      <DataTable
+        DialogContent={EditProjectDialog}
+        columns={ProjelerColumns}
+        data={data}
+      />
     </ContentLayout>
   );
 };
