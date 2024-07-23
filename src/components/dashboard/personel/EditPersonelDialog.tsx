@@ -18,7 +18,6 @@ type Props = Readonly<{
 }>;
 
 const EditPersonelDialog = ({ row }: Props) => {
-  console.log(row)
   return (
     <DialogContent className="max-w-[80dvw]">
       <DialogHeader>

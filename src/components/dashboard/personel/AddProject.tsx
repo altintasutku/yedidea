@@ -60,9 +60,11 @@ const AddProject = ({ row }: { row: Row<any> }) => {
   useEffect(() => {
     if (state.status === "success") {
       form.reset();
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({
+        queryKey: ["personelHistory"],
+      });
     }
-  }, [status])
+  }, [state])
   
 
   const { data: projects, isLoading: isProjectsLoading } = useQuery({

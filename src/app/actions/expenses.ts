@@ -14,6 +14,7 @@ export const createExpense = async (
 ): Promise<FormResponse> => {
   const name = formData.get("name") as string;
   const amount = formData.get("amount") as string;
+  const category = formData.get("category") as string;
 
   const session = await getAuthSession();
   if (!session?.user.id) {
@@ -25,7 +26,7 @@ export const createExpense = async (
 
   await db
     .insert(debtTable)
-    .values({ name, amount, createdBy: session.user.id })
+    .values({ name, amount, category, createdBy: session.user.id })
     .returning();
 
   revalidatePath("/giderler");

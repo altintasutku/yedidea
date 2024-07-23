@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { createPersonel } from "@/app/actions/personel";
+import { createPersonel, updatePersonel } from "@/app/actions/personel";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import defaultPp from "@/lib/data/default-pp.png";
@@ -54,10 +54,13 @@ type Props = Readonly<{
 
 const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
   const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(createPersonel, {
-    message: "",
-    status: "idle",
-  });
+  const [state, formAction] = useFormState(
+    action === "create" ? createPersonel : updatePersonel,
+    {
+      message: "",
+      status: "idle",
+    },
+  );
 
   const [profilePhoto, setProfilePhoto] = React.useState<File>();
   const ppInputRef = React.useRef<HTMLInputElement>(null);
@@ -89,7 +92,18 @@ const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
   return (
     <Form {...form}>
       <ScrollArea className="h-[85dvh]">
-        <form action={formAction} className="space-y-4 p-4">
+        <form
+          action={(e) => {
+            //@ts-ignore
+            if (defaultValues && defaultValues.id) {
+              //@ts-ignore
+              e.append("id", defaultValues.id);
+            }
+
+            formAction(e);
+          }}
+          className="space-y-4 p-4"
+        >
           <FormField
             control={form.control}
             name="photo"
