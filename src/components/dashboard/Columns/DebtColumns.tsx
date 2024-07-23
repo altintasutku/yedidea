@@ -66,6 +66,22 @@ export const debtColumns: ColumnDef<any>[] = [
     },
   },
   {
+    accessorKey: "category",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        <div>Kategori</div>
+        {column.getIsSorted() === "asc" ? (
+          <SortAsc className="ml-2 h-4 w-4" />
+        ) : (
+          <SortDesc className="ml-2 h-4 w-4" />
+        )}
+      </Button>
+    ),
+  },
+  {
     accessorKey: "amount",
     header: ({ column }) => (
       <Button

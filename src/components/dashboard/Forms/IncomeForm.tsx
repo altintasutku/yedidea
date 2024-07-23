@@ -18,10 +18,20 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
 import { createIncome } from "@/app/actions/income";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const incomeSchema = z.object({
   name: z.string({ required_error: "İsim zorunludur" }).describe("İsim"),
   amount: z.number({ required_error: "Miktar zorunludur" }).describe("Miktar"),
+  category: z
+    .string({ required_error: "Kategori zorunludur" })
+    .describe("Kategori"),
 });
 
 export type IncomeForm = z.infer<typeof incomeSchema>;
@@ -70,6 +80,37 @@ const IncomeForm = ({ defaultValues, action = "create", setOpen }: Props) => {
                 <Input {...field} />
               </FormControl>
               <FormDescription>Gider ismi.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />{" "}
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Kategori</FormLabel>
+              <FormControl>
+                <Select
+                  {...field}
+                  onValueChange={(v) =>
+                    form.setValue(
+                      "category",
+                      v as "Personel" | "Proje" | "Özel",
+                    )
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Personel">Personel</SelectItem>
+                    <SelectItem value="Proje">Proje</SelectItem>
+                    <SelectItem value="Özel">Özel</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormDescription>Gider Kategorisi</FormDescription>
               <FormMessage />
             </FormItem>
           )}

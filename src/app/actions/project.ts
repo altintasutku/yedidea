@@ -2,6 +2,7 @@
 
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { debtTable } from "@/lib/schema/debt";
 import { projectPersonelTable, projectTable } from "@/lib/schema/project";
 import { projectSchema } from "@/lib/zodSchemas";
 import { InferInsertModel } from "drizzle-orm";
@@ -27,7 +28,7 @@ export const createProject = async (values: z.infer<typeof projectSchema>) => {
 
 export const addPersonelToProject = async (
   prevState: any,
-  data: Omit<InferInsertModel<typeof projectPersonelTable>,"createdBy">,
+  data: Omit<InferInsertModel<typeof projectPersonelTable>, "createdBy">,
 ): Promise<FormResponse> => {
   const session = await getAuthSession();
   if (!session?.user.id) {
@@ -36,13 +37,17 @@ export const addPersonelToProject = async (
       status: "error",
     };
   }
-  await db
-    .insert(projectPersonelTable)
-    .values({
-      ...data,
-      createdBy: session.user.id,
-    })
-    .returning();
+  await db.insert(projectPersonelTable).values({
+    ...data,
+    createdBy: session.user.id,
+  });
+
+  await db.insert(debtTable).values({
+    name: `Personel ücreti ${data.personelId}`,
+    amount: data.personelPrice,
+    category: "Personel",
+    createdBy: session.user.id,
+  });
 
   revalidatePath("/personel");
   revalidatePath("/projeler");

@@ -15,6 +15,7 @@ export const debtTable = pgTable("debts", {
     .default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
   amount: numeric("amount").notNull(),
+  category: text("category").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
   createdBy: uuid("created_by").notNull(),
