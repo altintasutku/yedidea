@@ -64,8 +64,7 @@ const AddProject = ({ row }: { row: Row<any> }) => {
         queryKey: ["personelHistory"],
       });
     }
-  }, [state])
-  
+  }, [state]);
 
   const { data: projects, isLoading: isProjectsLoading } = useQuery({
     queryKey: ["projects"],
@@ -192,7 +191,7 @@ const AddProject = ({ row }: { row: Row<any> }) => {
             </FormItem>
           )}
         />
-        <Button type="submit">
+        <Button type="submit" className="my-2">
           {state.status === "loading" ? "Yükleniyor..." : "Proje Ekle"}
         </Button>
       </form>
