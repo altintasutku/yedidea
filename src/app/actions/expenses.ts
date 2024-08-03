@@ -4,6 +4,7 @@ import { firmSchema } from "@/components/dashboard/Forms/FirmaForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { debtTable } from "@/lib/schema/debt";
+import { paymentTable } from "@/lib/schema/payment";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -41,6 +42,20 @@ export async function deleteExpense(items: (typeof debtTable.$inferSelect)[]) {
   try {
     items.forEach(async (item) => {
       await db.delete(debtTable).where(eq(debtTable.id, item.id));
+    });
+
+    revalidatePath("/giderler");
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function deletePayment(
+  items: (typeof paymentTable.$inferSelect)[],
+) {
+  try {
+    items.forEach(async (item) => {
+      await db.delete(paymentTable).where(eq(paymentTable.id, item.id));
     });
 
     revalidatePath("/giderler");

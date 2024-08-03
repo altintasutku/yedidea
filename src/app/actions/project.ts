@@ -3,6 +3,8 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { debtTable } from "@/lib/schema/debt";
+import { incomeTable } from "@/lib/schema/income";
+import { personelTable } from "@/lib/schema/personel";
 import { projectPersonelTable, projectTable } from "@/lib/schema/project";
 import { projectSchema } from "@/lib/zodSchemas";
 
@@ -22,16 +24,21 @@ export const createProject = async (
     };
   }
 
-  await db
-    .insert(projectTable)
-    .values({
-      ...values,
-      amount: values.amount.toString(),
-      createdBy: session.user.id,
-    })
-    .returning();
+  await db.insert(projectTable).values({
+    ...values,
+    amount: values.amount.toString(),
+    createdBy: session.user.id,
+  });
+
+  await db.insert(incomeTable).values({
+    name: `Proje Geliri : ${values.projectName}`,
+    amount: values.amount.toString(),
+    category: "Proje",
+    createdBy: session.user.id,
+  });
 
   revalidatePath("/projeler");
+  revalidatePath("/gelirler");
 
   return {
     message: "WPS başarıyla oluşturuldu",
@@ -69,8 +76,13 @@ export const addPersonelToProject = async (
     createdBy: session.user.id,
   });
 
+  const personel = await db
+    .select()
+    .from(personelTable)
+    .where(eq(personelTable.id, data.personelId));
+
   await db.insert(debtTable).values({
-    name: `Personel ücreti ${data.personelId}`,
+    name: `Personel ücreti : ${personel[0].name}`,
     amount: data.personelPrice,
     category: "Personel",
     createdBy: session.user.id,
