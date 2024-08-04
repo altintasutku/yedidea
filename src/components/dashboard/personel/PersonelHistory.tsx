@@ -3,6 +3,7 @@
 import { queryClient } from "@/components/Providers";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ProjectPersonelSelect, ProjectSelect } from "@/lib/schema/project";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -14,13 +15,14 @@ import React, { useEffect } from "react";
 // Row is a personel
 type Props = Readonly<{
   row: Row<any>;
-  searchValue: string;
 }>;
 
-const PersonelHistory = ({ row, searchValue }: Props) => {
+const PersonelHistory = ({ row }: Props) => {
   const [searchValues, setSearchValues] = React.useState<
     (ProjectPersonelSelect & { project: ProjectSelect })[]
   >([]);
+
+  const [searchValue, setSearchValue] = React.useState("");
 
   useEffect(() => {
     if (searchValue && history) {
@@ -77,6 +79,11 @@ const PersonelHistory = ({ row, searchValue }: Props) => {
   return (
     <>
       <h1 className="text-3xl font-bold text-center mt-2">Personel Geçmişi</h1>
+      <Input
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        placeholder="Proje Ara"
+      />
       {history ? (
         <ul className="space-y-4 divide-y overflow-auto py-4">
           {searchValue.length > 0
