@@ -59,6 +59,7 @@ const PersonelHistory = ({ row }: Props) => {
 
   return (
     <>
+      <h1 className="text-3xl font-bold text-center mt-2">Personel Geçmişi</h1>
       {history ? (
         <ul className="space-y-4 divide-y overflow-auto py-4">
           {history.map((item) => (
