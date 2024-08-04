@@ -10,7 +10,6 @@ import PersonelForm from "../Forms/PersonelForm";
 import { Row } from "@tanstack/react-table";
 import AddProject from "./AddProject";
 import PersonelHistory from "./PersonelHistory";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Accordion,
@@ -28,7 +27,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 
 type Props = Readonly<{
   row: Row<any>;
@@ -68,37 +66,26 @@ const EditPersonelDialog = ({ row }: Props) => {
                 <PersonelHistory row={row} />
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="personelHistory">
-              <AccordionTrigger>Personel Geçmişi</AccordionTrigger>
+            <AccordionItem value="paymentHistory">
+              <AccordionTrigger>Ödeme Geçmişi</AccordionTrigger>
               <AccordionContent>
-                <div className="flex w-1/2">
-            <Input
-              value={searchValue}
-              onChange={(e) => {
-                setSearchValue(e.target.value);
-              }}
-              placeholder="Ara"
-              className="mt-5"
-            />
-          </div>
-          <PersonelHistory searchValue={searchValue} row={row} />
-          <Table>
-            <TableCaption>Önceden Ödenenler</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Tarih</TableHead>
-                <TableHead className="text-right">Miktar</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>Paid</TableCell>
-                <TableCell>Credit Card</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+                <Table>
+                  <TableCaption>Önceden Ödenenler</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Tarih</TableHead>
+                      <TableHead className="text-right">Miktar</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">INV001</TableCell>
+                      <TableCell>Paid</TableCell>
+                      <TableCell>Credit Card</TableCell>
+                      <TableCell className="text-right">$250.00</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
