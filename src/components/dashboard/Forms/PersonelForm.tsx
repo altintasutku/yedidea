@@ -297,11 +297,11 @@ const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
             name="files"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Dosyalar</FormLabel>
+                <FormLabel>Dosya</FormLabel>
                 <FormControl>
                   <Input {...field} type="file" />
                 </FormControl>
-                <FormDescription>Personelin dosyaları.</FormDescription>
+                <FormDescription>Personelin dosyası.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

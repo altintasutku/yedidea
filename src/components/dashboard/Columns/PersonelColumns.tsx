@@ -6,6 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   CopyIcon,
+  FileIcon,
   MoreHorizontal,
   SortAsc,
   SortDesc,
@@ -150,6 +151,25 @@ export const personelColumns: ColumnDef<any>[] = [
     ),
   },
   {
+    accessorKey: "files",
+    header: "Dosya",
+    cell: ({ row }) => {
+      return (
+        <div>
+          <a
+            href={row.getValue("files")}
+            target="_blank"
+            rel="noreferrer"
+            className="cursor-pointer underline"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Dosyayı Aç
+          </a>
+        </div>
+      );
+    },
+  },
+  {
     id: "actions",
     enableHiding: false,
     header(props) {
@@ -181,7 +201,7 @@ export const personelColumns: ColumnDef<any>[] = [
     },
     cell: ({ row, table }) => {
       const wps = row.original; // TODO
- 
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -191,12 +211,24 @@ export const personelColumns: ColumnDef<any>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>WPS Seçenekler</DropdownMenuLabel>
+            <DropdownMenuLabel>Personel Seçenekler</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(wps.wps)}// TODO
+              onClick={() => navigator.clipboard.writeText(wps.wps)} // TODO
             >
               <CopyIcon className="mr-2 h-4 w-4" />
               Personel ID Kopyala
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <a
+                href={row.getValue("files")}
+                target="_blank"
+                rel="noreferrer"
+                className="cursor-pointer underline flex items-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FileIcon className="mr-2 h-4 w-4" />
+                Dosyayı Aç
+              </a>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem

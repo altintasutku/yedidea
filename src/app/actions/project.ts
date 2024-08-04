@@ -37,6 +37,13 @@ export const createProject = async (
     createdBy: session.user.id,
   });
 
+  await db.insert(debtTable).values({
+    name: `Proje ücreti - ${values.projectName}`,
+    amount: values.amount.toString(),
+    category: "Proje",
+    createdBy: session.user.id,
+  });
+
   revalidatePath("/projeler");
   revalidatePath("/gelirler");
 

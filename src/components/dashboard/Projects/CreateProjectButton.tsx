@@ -18,11 +18,11 @@ const CreateProjectButton = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>Gider Ekle</Button>
+        <Button>Proje Ekle</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Gider Ekle</DialogTitle>
+          <DialogTitle>Proje Ekle</DialogTitle>
         </DialogHeader>
         <ProjectForm setOpen={setOpen} />
       </DialogContent>
