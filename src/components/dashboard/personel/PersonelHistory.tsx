@@ -47,6 +47,7 @@ const PersonelHistory = ({ row }: Props) => {
       );
       return data as (ProjectPersonelSelect & { project: ProjectSelect })[];
     },
+    staleTime: 0,
   });
 
   const { mutate: removeItem } = useMutation({

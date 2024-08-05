@@ -33,6 +33,7 @@ const EditExpensesDialog = ({ row }: { row: Row<any> }) => {
       });
       return payments as PaymentSelect[];
     },
+    staleTime: 0,
   });
 
   return (
