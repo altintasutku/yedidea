@@ -11,6 +11,9 @@ import DashboardBreadcrumb from "@/components/dashboard/DashboardBreadcrumb";
 import { projectTable } from "@/lib/schema/project";
 import CreateProjectButton from "@/components/dashboard/Projects/CreateProjectButton";
 import EditProjectDialog from "@/components/dashboard/Projects/EditProjectDialog";
+import { firmTable } from "@/lib/schema/firm";
+
+export const dynamic = "force-dynamic";
 
 const ProjelerPage = async () => {
   const session = await getAuthSession();
@@ -19,13 +22,14 @@ const ProjelerPage = async () => {
   }
 
   const data = await db.select().from(projectTable);
+  const firms = await db.select().from(firmTable);
 
   return (
     <ContentLayout title="Projeler">
       <DashboardBreadcrumb page="Projeler" />
 
       <div className="flex w-full justify-end">
-        <CreateProjectButton />
+        <CreateProjectButton data={firms} />
       </div>
 
       <DataTable

@@ -13,7 +13,6 @@ import { Separator } from "@radix-ui/react-select";
 import AddProject from "../dashboard/personel/AddProject";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentSelect } from "@/lib/schema/payment";
-import axios from "axios";
 import { DataTable } from "../DataTable";
 import { paymentColumns } from "../dashboard/Columns/PaymentColumns";
 
@@ -23,7 +22,7 @@ const EditExpensesDialog = ({ row }: { row: Row<any> }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["payments"],
     queryFn: async () => {
-      const { data } = await axios.get("/api/payment");
+      const data = await fetch("/api/payment",{cache:"no-store"}).then((res) => res.json());
 
       const payments = data.filter((payment: PaymentSelect) => {
         return payment.debtId === row.original.id;

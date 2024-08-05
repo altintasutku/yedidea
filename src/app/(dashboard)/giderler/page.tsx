@@ -22,6 +22,8 @@ import CreateExpenseButton from "@/components/expenses/CreatePersonelButton";
 import EditExpensesDialog from "@/components/expenses/EditExpensesDialog";
 import { debtTable } from "@/lib/schema/debt";
 
+export const dynamic = "force-dynamic";
+
 const GiderlerPage = async () => {
   const session = await getAuthSession();
   if (!session) {

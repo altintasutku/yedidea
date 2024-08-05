@@ -17,12 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
-import { createIncome } from "@/app/actions/income";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { InferSelectModel } from "drizzle-orm";
 import { firmTable } from "@/lib/schema/firm";
-import { personelTable } from "@/lib/schema/personel";
 import { Command as CommandPrimitive } from "cmdk";
 import {
   Command,
@@ -58,31 +54,16 @@ type Props = Readonly<{
   defaultValues?: Partial<ProjectForm>;
   action?: "create" | "update";
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  data: InferSelectModel<typeof firmTable>[];
 }>;
 
-const ProjectForm = ({ defaultValues, action = "create", setOpen }: Props) => {
+const ProjectForm = ({
+  defaultValues,
+  action = "create",
+  setOpen,
+  data,
+}: Props) => {
   const { pending } = useFormStatus();
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["firm"],
-    queryFn: async () => {
-      const response = await axios.get("/api/firm");
-      return response.data as InferSelectModel<typeof firmTable>[];
-    },
-    staleTime: 0,
-  });
-  const {
-    data: personels,
-    isLoading: loading,
-    error: personelError,
-  } = useQuery({
-    queryKey: ["personels"],
-    queryFn: async () => {
-      const response = await axios.get("/api/personel");
-      return response.data as InferSelectModel<typeof personelTable>[];
-    },
-    staleTime: 0,
-  });
 
   const [state, formAction] = useFormState(createProject, {
     message: "",
@@ -160,31 +141,28 @@ const ProjectForm = ({ defaultValues, action = "create", setOpen }: Props) => {
 
                   <div className="relative">
                     <CommandList>
-                      {isLoading ? (
-                        <Loader2Icon className="animate-spin" />
-                      ) : firmSearchOpen ? (
+                      {firmSearchOpen ? (
                         <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
                           <CommandGroup className="h-full overflow-auto">
-                            {data &&
-                              data.map((firm) => {
-                                return (
-                                  <CommandItem
-                                    key={firm.id}
-                                    className={"cursor-pointer"}
-                                    onMouseDown={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                    }}
-                                    onSelect={() => {
-                                      form.setValue("firmName", firm.name);
-                                      setFirmSearchOpen(false);
-                                      setFirmSearchValue(firm.name);
-                                    }}
-                                  >
-                                    {firm.name}
-                                  </CommandItem>
-                                );
-                              })}
+                            {data.map((firm) => {
+                              return (
+                                <CommandItem
+                                  key={firm.id}
+                                  className={"cursor-pointer"}
+                                  onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                  }}
+                                  onSelect={() => {
+                                    form.setValue("firmName", firm.name);
+                                    setFirmSearchOpen(false);
+                                    setFirmSearchValue(firm.name);
+                                  }}
+                                >
+                                  {firm.name}
+                                </CommandItem>
+                              );
+                            })}
                           </CommandGroup>
                         </div>
                       ) : null}

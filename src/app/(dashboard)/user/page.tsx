@@ -10,6 +10,8 @@ import UserForm from "@/components/dashboard/Forms/UserForm";
 import { userColumns } from "@/components/dashboard/Columns/UserColumns";
 import { userTable } from "@/lib/schema/user";
 
+export const dynamic = "force-dynamic";
+
 const UserPage = async () => {
   const session = await getAuthSession();
   if (!session) {

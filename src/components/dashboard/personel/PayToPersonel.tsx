@@ -4,7 +4,6 @@ import { Row } from "@tanstack/react-table";
 import React, { useMemo } from "react";
 import AddPayment from "../Forms/AddPayment";
 import { DataTable } from "@/components/DataTable";
-import axios from "axios";
 import { ProjectPersonelSelect } from "@/lib/schema/project";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentSelect } from "@/lib/schema/payment";
@@ -18,9 +17,11 @@ const PayToPersonel = ({ row }: Props) => {
   const { data: payments, refetch: paymentsRefetch } = useQuery({
     queryKey: ["payments"],
     queryFn: async () => {
-      const payments = await axios.get("/api/payment");
+      const payments = await fetch("/api/payment", {
+        cache: "no-store",
+      }).then((res) => res.json());
 
-      const filteredData = payments.data.filter(
+      const filteredData = payments.filter(
         (payment: PaymentSelect) => payment.personelId === row.original.id,
       ) as PaymentSelect[];
 
@@ -32,9 +33,12 @@ const PayToPersonel = ({ row }: Props) => {
   const { data: projectPersonel, refetch: projectPersonelRefecth } = useQuery({
     queryKey: ["projectPersonel"],
     queryFn: async () => {
-      const { data } = await axios.get(
+      const data = await fetch(
         `/api/project-personel?personelId=${row.original.id}`,
-      );
+        {
+          cache: "no-store",
+        },
+      ).then((res) => res.json());
 
       const filteredData = data.filter(
         (projectPersonel: ProjectPersonelSelect) => {

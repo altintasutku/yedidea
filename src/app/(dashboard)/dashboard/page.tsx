@@ -14,6 +14,8 @@ import GelirDagilimi from "@/components/dashboard/charts/geliroranlari";
 import AylikDurum from "@/components/dashboard/charts/aylikdurum";
 import Kazanc from "@/components/dashboard/charts/kazanc";
 
+export const dynamic = "force-dynamic";
+
 const DashboardPage = async () => {
   const session = await getAuthSession();
   if (!session) {
