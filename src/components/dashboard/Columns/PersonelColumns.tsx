@@ -200,7 +200,7 @@ export const personelColumns: ColumnDef<any>[] = [
       );
     },
     cell: ({ row, table }) => {
-      const wps = row.original; // TODO
+      const personel = row.original; // TODO
 
       return (
         <DropdownMenu>
@@ -213,7 +213,7 @@ export const personelColumns: ColumnDef<any>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Personel Seçenekler</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(wps.wps)} // TODO
+              onClick={() => navigator.clipboard.writeText(personel.id)} // TODO
             >
               <CopyIcon className="mr-2 h-4 w-4" />
               Personel ID Kopyala

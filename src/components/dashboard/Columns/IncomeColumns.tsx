@@ -149,7 +149,7 @@ export const incomeColumns: ColumnDef<any>[] = [
       );
     },
     cell: ({ row, table }) => {
-      const wps = row.original; // TODO
+      const income = row.original; // TODO
 
       return (
         <DropdownMenu>
@@ -160,12 +160,12 @@ export const incomeColumns: ColumnDef<any>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>WPS Seçenekler</DropdownMenuLabel>
+            <DropdownMenuLabel>Gelir Seçenekler</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(wps.wps)} // TODO
+              onClick={() => navigator.clipboard.writeText(income.wps)} // TODO
             >
               <CopyIcon className="mr-2 h-4 w-4" />
-              Personel ID Kopyala
+              Gelir ID Kopyala
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem

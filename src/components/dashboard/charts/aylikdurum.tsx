@@ -17,15 +17,18 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { DebtSelect } from "@/lib/schema/debt";
+import { IncomeSelect } from "@/lib/schema/income";
+import { useMemo } from "react";
 
-const chartData = [
-  { month: "Ocak", gelir: 186, gider: 80 },
-  { month: "Şubat", gelir: 305, gider: 200 },
-  { month: "Mart", gelir: 237, gider: 120 },
-  { month: "Nisan", gelir: 73, gider: 190 },
-  { month: "Mayıs", gelir: 209, gider: 130 },
-  { month: "Haziran", gelir: 214, gider: 140 },
-];
+// const chartData = [
+//   { month: "Ocak", gelir: 186, gider: 80 },
+//   { month: "Şubat", gelir: 305, gider: 200 },
+//   { month: "Mart", gelir: 237, gider: 120 },
+//   { month: "Nisan", gelir: 73, gider: 190 },
+//   { month: "Mayıs", gelir: 209, gider: 130 },
+//   { month: "Haziran", gelir: 214, gider: 140 },
+// ];
 
 const chartConfig = {
   gelir: {
@@ -38,12 +41,53 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function AylikDurum() {
+type Props = Readonly<{
+  debts: DebtSelect[];
+  incomes: IncomeSelect[];
+}>;
+
+export default function AylikDurum({ debts, incomes }: Props) {
+  const chartData = useMemo(() => {
+    const data: {
+      month: string;
+      gelir: number;
+      gider: number;
+    }[] = [];
+
+    for (const debt of debts) {
+      const month = debt.createdAt!.toLocaleString("default", {
+        month: "long",
+      });
+      const existing = data.find((d) => d.month === month);
+
+      if (existing) {
+        existing.gider += Number(debt.amount);
+      } else {
+        data.push({ month, gelir: 0, gider: Number(debt.amount) });
+      }
+    }
+
+    for (const income of incomes) {
+      const month = income.createdAt!.toLocaleString("default", {
+        month: "long",
+      });
+      const existing = data.find((d) => d.month === month);
+
+      if (existing) {
+        existing.gelir += Number(income.amount);
+      } else {
+        data.push({ month, gelir: Number(income.amount), gider: 0 });
+      }
+    }
+
+    return data;
+  }, [debts, incomes]);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Aylık Durumlar</CardTitle>
-        <CardDescription>Aylık durumlar</CardDescription>
+        <CardTitle>Aylık durum</CardTitle>
+        <CardDescription>Her ayın karşılaştırması verir</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

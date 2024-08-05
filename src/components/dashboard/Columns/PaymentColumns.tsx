@@ -114,8 +114,6 @@ export const paymentColumns: ColumnDef<any>[] = [
       );
     },
     cell: ({ row, table }) => {
-      const wps = row.original; // TODO
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

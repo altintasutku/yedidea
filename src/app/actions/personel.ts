@@ -133,7 +133,7 @@ export async function updatePersonel(
   try {
     const publicDir = join(process.cwd(), "public");
     if (file.name && item.files) {
-      console.log(file.name)
+      console.log(file.name);
       const filePath = join(publicDir, item.files);
       await rm(filePath);
     }
@@ -142,21 +142,25 @@ export async function updatePersonel(
       await rm(filePath);
     }
 
-    let fileUrl = ""
-    console.log(file)
+    let fileUrl = "";
+    console.log(file);
     if (file.name) {
       const filename = await saveFile(file, uploadDir);
       fileUrl = `${relativeUploadDir}/${filename}`;
-    }else {
-      fileUrl = item.files
+    } else {
+      fileUrl = item.files;
     }
 
-    let ppFileUrl = ""
+    let ppFileUrl = "";
     if (photo.name) {
-      const ppFilename = await saveFile(photo, uploadDir, `pp-${session.user.id}`);
+      const ppFilename = await saveFile(
+        photo,
+        uploadDir,
+        `pp-${session.user.id}`,
+      );
       ppFileUrl = `${relativeUploadDir}/${ppFilename}`;
-    }else {
-      ppFileUrl = item.photo
+    } else {
+      ppFileUrl = item.photo;
     }
 
     // Save to database
@@ -216,6 +220,34 @@ export async function deletePersonel(
   } catch (e) {
     console.error(e);
   }
+}
+
+export async function updateDates(payload: {
+  dates: Date[];
+  personelID: string;
+}): Promise<FormResponse> {
+  const session = await getAuthSession();
+
+  if (!session) {
+    return {
+      message: "Yetkisiz erişim",
+      status: "error",
+    };
+  }
+
+  await db
+    .update(personelTable)
+    .set({
+      dates: payload.dates,
+    })
+    .where(eq(personelTable.id, payload.personelID));
+
+  revalidatePath("/personel");  
+  
+  return {
+    message: "Personel başarıyla guncellendi",
+    status: "success",
+  };
 }
 
 async function saveFile(file: File, uploadDir: string, filename?: string) {

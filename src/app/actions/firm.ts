@@ -4,6 +4,7 @@ import { firmSchema } from "@/components/dashboard/Forms/FirmaForm";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { firmTable } from "@/lib/schema/firm";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -30,7 +31,30 @@ export const createFirm = async (
   revalidatePath("/firma");
 
   return {
-    message: "WPS başarıyla oluşturuldu",
+    message: "Firma başarıyla oluşturuldu",
     status: "success",
   };
 };
+
+export async function deleteFirm(
+  items : (typeof firmTable.$inferSelect)[]
+): Promise<FormResponse> {
+  const session = await getAuthSession();
+  if (!session?.user.id) {
+    return {
+      message: "Yetkisiz erişim",
+      status: "error",
+    };
+  }
+
+  for (const item of items) {
+    await db.delete(firmTable).where(eq(firmTable.id, item.id));
+  }
+
+  revalidatePath("/firma");
+
+  return {
+    message: "Firma başarıyla silindi",
+    status: "success",
+  };
+}

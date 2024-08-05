@@ -124,7 +124,7 @@ export const ProjelerColumns: ColumnDef<any>[] = [
       );
     },
     cell: ({ row, table }) => {
-      const wps = row.original; // TODO
+      const project = row.original; 
 
       return (
         <DropdownMenu>
@@ -135,12 +135,12 @@ export const ProjelerColumns: ColumnDef<any>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>WPS Seçenekler</DropdownMenuLabel>
+            <DropdownMenuLabel>Proje Seçenekler</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(wps.wps)} // TODO
+              onClick={() => navigator.clipboard.writeText(project.wps)} 
             >
               <CopyIcon className="mr-2 h-4 w-4" />
-              Personel ID Kopyala
+              Proje ID Kopyala
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem

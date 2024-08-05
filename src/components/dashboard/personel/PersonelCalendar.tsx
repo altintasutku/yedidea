@@ -1,5 +1,7 @@
 "use client";
 
+import { updateDates } from "@/app/actions/personel";
+import { Button } from "@/components/ui/button";
 import { CalendarHeatmap } from "@/components/ui/calendar-heatmap";
 import { Row } from "@tanstack/react-table";
 import React from "react";
@@ -9,12 +11,7 @@ type Props = Readonly<{
 }>;
 
 const PersonelCalendar = ({ row }: Props) => {
-  const [dates, setDates] = React.useState<Date[]>([
-    new Date("Aug 1, 2024"),
-    new Date("Aug 15, 2024"),
-    new Date("Aug 18, 2024"),
-  ]);
-
+  const [dates, setDates] = React.useState<Date[]>(row.original.dates);
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
 
   return (
@@ -32,15 +29,23 @@ const PersonelCalendar = ({ row }: Props) => {
         ]}
         onMonthChange={(month) => setCurrentMonth(month)}
         datesPerVariant={[dates]}
-        onDayClick={(date) =>
+        onDayClick={(date) => {
           setDates((prev) => {
-            if (prev.includes(date)) {
-              return prev.filter((d) => d !== date);
+            if (prev.some((i) => i.toDateString() == date.toDateString())) {
+              return prev.filter((d) => d.toDateString() !== date.toDateString());
             }
             return [...prev, date];
-          })
-        }
+          });
+        }}
       />
+      <Button
+        onClick={() => {
+          updateDates({ dates, personelID: row.original.id });
+        }}
+        className="mt-4"
+      >
+        Kaydet
+      </Button>
     </div>
   );
 };

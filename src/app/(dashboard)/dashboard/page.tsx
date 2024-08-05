@@ -34,8 +34,8 @@ const DashboardPage = async () => {
       </Breadcrumb>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 py-4">
-        <Kazanc className="sm:col-span-2 md:col-span-3"/>
-        <AylikDurum />
+        <Kazanc className="sm:col-span-2 md:col-span-3" debts={debts} incomes={incomes}/>
+        <AylikDurum debts={debts} incomes={incomes} />
         <GiderDagilimi data={debts} />
         <GelirDagilimi data={incomes} />
       </div>
