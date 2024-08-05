@@ -74,7 +74,9 @@ export function DataTable({
   data: any;
   DialogContent?: React.FC<{ row: any }>;
 }) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([
+    { id: "name", desc: false },
+  ]);
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -113,7 +115,7 @@ export function DataTable({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4 space-x-2">
+      <div className="flex items-center space-x-2 py-4">
         <DebouncedInput
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}

@@ -22,6 +22,10 @@ export const personelTable = pgTable("personel", {
   phone: text("phone").notNull(),
   city: text("city").notNull(),
   district: text("district").notNull(),
+  dates: timestamp("timestamps", { precision: 6, withTimezone: true })
+    .array()
+    .notNull()
+    .default(sql`ARRAY[]::timestamp with time zone[]`),
 
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),

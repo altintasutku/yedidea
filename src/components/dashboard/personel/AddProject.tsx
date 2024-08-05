@@ -55,6 +55,11 @@ const AddProject = ({ row }: { row: Row<any> }) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     formAction(values);
+    form.setValue("projectId", "");
+    setProjectSearchValue("");
+    form.setValue("personelPrice", "");
+    form.setValue("startDate", new Date());
+    form.setValue("endDate", new Date());
   }
 
   useEffect(() => {
