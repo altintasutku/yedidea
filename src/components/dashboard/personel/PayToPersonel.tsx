@@ -45,11 +45,9 @@ const PayToPersonel = ({ row }: Props) => {
     },
   });
 
-  if (!projectPersonel || !payments) return;
-
   const personelDebt = useMemo(
     () =>
-      projectPersonel.reduce((acc, projectPersonel) => {
+      (projectPersonel || []).reduce((acc, projectPersonel) => {
         return acc + Number(projectPersonel.personelPrice);
       }, 0),
     [projectPersonel],
@@ -57,11 +55,13 @@ const PayToPersonel = ({ row }: Props) => {
 
   const totalPaid = useMemo(
     () =>
-      payments.reduce((acc, payment) => {
+      (payments || []).reduce((acc, payment) => {
         return acc + Number(payment.paidAmount);
       }, 0),
     [payments],
   );
+
+  if (!projectPersonel || !payments) return;
 
   return (
     <div className="px-10">
