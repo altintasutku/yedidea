@@ -7,8 +7,9 @@ export const paymentTable = pgTable("payment", {
   id: uuid("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
+  personelId: uuid("personel_id").notNull(),
   paidAmount: numeric("paid_amount").notNull(),
-  debtId: uuid("debt_id").notNull(),
+  debtId: uuid("debt_id"),
   createdBy: uuid("created_by").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),

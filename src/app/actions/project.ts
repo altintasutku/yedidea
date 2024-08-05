@@ -37,12 +37,12 @@ export const createProject = async (
     createdBy: session.user.id,
   });
 
-  await db.insert(debtTable).values({
-    name: `Proje ücreti - ${values.projectName}`,
-    amount: values.amount.toString(),
-    category: "Proje",
-    createdBy: session.user.id,
-  });
+  // await db.insert(debtTable).values({
+  //   name: `Proje ücreti - ${values.projectName}`,
+  //   amount: values.amount.toString(),
+  //   category: "Proje",
+  //   createdBy: session.user.id,
+  // });
 
   revalidatePath("/projeler");
   revalidatePath("/gelirler");
@@ -83,17 +83,17 @@ export const addPersonelToProject = async (
     createdBy: session.user.id,
   });
 
-  const personel = await db
-    .select()
-    .from(personelTable)
-    .where(eq(personelTable.id, data.personelId));
+  // const personel = await db
+  //   .select()
+  //   .from(personelTable)
+  //   .where(eq(personelTable.id, data.personelId));
 
-  await db.insert(debtTable).values({
-    name: `Personel ücreti : ${personel[0].name}`,
-    amount: data.personelPrice,
-    category: "Personel",
-    createdBy: session.user.id,
-  });
+  // await db.insert(debtTable).values({
+  //   name: `Personel ücreti : ${personel[0].name}`,
+  //   amount: data.personelPrice,
+  //   category: "Personel",
+  //   createdBy: session.user.id,
+  // });
 
   revalidatePath("/personel");
   revalidatePath("/projeler");

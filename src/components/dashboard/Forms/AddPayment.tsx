@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormState } from "react-dom";
-import { Row } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { addPayment } from "@/app/actions/payment";
 
@@ -22,10 +21,13 @@ const formSchema = z.object({
   paidAmount: z
     .string({ required_error: "ödenen miktar zorunludur" })
     .describe("Ödenen Miktar"),
-  debtId: z.string(),
 });
 
-const AddPayment = ({ row }: { row: Row<any> }) => {
+type Props = Readonly<{
+  personelId: string;
+}>;
+
+const AddPayment = ({ personelId }: Props) => {
   const [state, formAction] = useFormState(addPayment, {
     message: "",
     status: "idle",
@@ -33,13 +35,14 @@ const AddPayment = ({ row }: { row: Row<any> }) => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      debtId: row.original.id,
-    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    formAction(values);
+    const updatedValues = {
+      ...values,
+      personelId: personelId,
+    };
+    formAction(updatedValues);
   }
 
   return (

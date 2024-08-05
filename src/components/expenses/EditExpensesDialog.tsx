@@ -40,9 +40,9 @@ const EditExpensesDialog = ({ row }: { row: Row<any> }) => {
       <DialogHeader>
         <DialogTitle>Gider Kartı</DialogTitle>
       </DialogHeader>
-      <div className="grid grid-cols-2 gap-x-4 divide-x">
+      <div>
         <DebtForm action="update" defaultValues={row.original} />
-        <div className="px-10">
+        {/* <div className="px-10">
           <Separator className="mt-2" />
           <div className="flex items-center justify-between">
             <span className="font-bold">
@@ -51,7 +51,7 @@ const EditExpensesDialog = ({ row }: { row: Row<any> }) => {
             <AddPayment row={row} />
           </div>
           <DataTable columns={paymentColumns} data={data} />
-        </div>
+        </div> */}
       </div>
     </DialogContent>
   );
