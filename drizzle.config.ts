@@ -8,6 +8,6 @@ export default defineConfig({
   schema: "./src/lib/schema/**/*.ts",
   out: "./drizzle",
   dbCredentials: {
-    url: process.env.DRIZZLE_DATABASE_URL!,
+    url: process.env.POSTGRES_URL!,
   },
 });
