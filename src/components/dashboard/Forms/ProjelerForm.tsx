@@ -17,8 +17,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
+import { createIncome } from "@/app/actions/income";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { InferSelectModel } from "drizzle-orm";
 import { firmTable } from "@/lib/schema/firm";
+import { personelTable } from "@/lib/schema/personel";
 import { Command as CommandPrimitive } from "cmdk";
 import {
   Command,
@@ -54,16 +58,19 @@ type Props = Readonly<{
   defaultValues?: Partial<ProjectForm>;
   action?: "create" | "update";
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  data: InferSelectModel<typeof firmTable>[];
 }>;
 
-const ProjectForm = ({
-  defaultValues,
-  action = "create",
-  setOpen,
-  data,
-}: Props) => {
+const ProjectForm = ({ defaultValues, action = "create", setOpen }: Props) => {
   const { pending } = useFormStatus();
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["firm"],
+    queryFn: async () => {
+      const response = await fetch("/api/firm",{cache:"no-store"}).then((res) => res.json());
+      return response as InferSelectModel<typeof firmTable>[];
+    },
+    staleTime: 0,
+  });
 
   const [state, formAction] = useFormState(createProject, {
     message: "",
@@ -141,28 +148,31 @@ const ProjectForm = ({
 
                   <div className="relative">
                     <CommandList>
-                      {firmSearchOpen ? (
+                      {isLoading ? (
+                        <Loader2Icon className="animate-spin" />
+                      ) : firmSearchOpen ? (
                         <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
                           <CommandGroup className="h-full overflow-auto">
-                            {data.map((firm) => {
-                              return (
-                                <CommandItem
-                                  key={firm.id}
-                                  className={"cursor-pointer"}
-                                  onMouseDown={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                  }}
-                                  onSelect={() => {
-                                    form.setValue("firmName", firm.name);
-                                    setFirmSearchOpen(false);
-                                    setFirmSearchValue(firm.name);
-                                  }}
-                                >
-                                  {firm.name}
-                                </CommandItem>
-                              );
-                            })}
+                            {data &&
+                              data.map((firm) => {
+                                return (
+                                  <CommandItem
+                                    key={firm.id}
+                                    className={"cursor-pointer"}
+                                    onMouseDown={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                    }}
+                                    onSelect={() => {
+                                      form.setValue("firmName", firm.name);
+                                      setFirmSearchOpen(false);
+                                      setFirmSearchValue(firm.name);
+                                    }}
+                                  >
+                                    {firm.name}
+                                  </CommandItem>
+                                );
+                              })}
                           </CommandGroup>
                         </div>
                       ) : null}

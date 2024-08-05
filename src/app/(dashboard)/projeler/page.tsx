@@ -22,14 +22,13 @@ const ProjelerPage = async () => {
   }
 
   const data = await db.select().from(projectTable);
-  const firms = await db.select().from(firmTable);
 
   return (
     <ContentLayout title="Projeler">
       <DashboardBreadcrumb page="Projeler" />
 
       <div className="flex w-full justify-end">
-        <CreateProjectButton data={firms} />
+        <CreateProjectButton/>
       </div>
 
       <DataTable

@@ -15,11 +15,7 @@ import { InferSelectModel } from "drizzle-orm";
 import { projectTable } from "@/lib/schema/project";
 import { firmTable } from "@/lib/schema/firm";
 
-const CreateProjectButton = ({
-  data,
-}: {
-  data: InferSelectModel<typeof firmTable>[];
-}) => {
+const CreateProjectButton = () => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -31,7 +27,7 @@ const CreateProjectButton = ({
         <DialogHeader>
           <DialogTitle>Proje Ekle</DialogTitle>
         </DialogHeader>
-        <ProjectForm setOpen={setOpen} data={data} />
+        <ProjectForm setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
