@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import React, { useEffect } from "react";
+import React from "react";
 import PersonelForm from "../Forms/PersonelForm";
 import { Row } from "@tanstack/react-table";
 import AddProject from "./AddProject";
@@ -18,13 +18,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import PersonelCalendar from "./PersonelCalendar";
-import { DataTable } from "@/components/DataTable";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { PaymentSelect } from "@/lib/schema/payment";
-import { paymentColumns } from "../Columns/PaymentColumns";
-import { ProjectPersonelSelect } from "@/lib/schema/project";
-import AddPayment from "../Forms/AddPayment";
 import PayToPersonel from "./PayToPersonel";
 
 type Props = Readonly<{

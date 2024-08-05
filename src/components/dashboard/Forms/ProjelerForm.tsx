@@ -69,6 +69,7 @@ const ProjectForm = ({ defaultValues, action = "create", setOpen }: Props) => {
       const response = await axios.get("/api/firm");
       return response.data as InferSelectModel<typeof firmTable>[];
     },
+    staleTime: 0,
   });
   const {
     data: personels,
@@ -80,6 +81,7 @@ const ProjectForm = ({ defaultValues, action = "create", setOpen }: Props) => {
       const response = await axios.get("/api/personel");
       return response.data as InferSelectModel<typeof personelTable>[];
     },
+    staleTime: 0,
   });
 
   const [state, formAction] = useFormState(createProject, {

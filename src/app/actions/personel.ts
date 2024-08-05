@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 import { getAuthSession } from "@/lib/auth";
 import { personelTable } from "@/lib/schema/personel";
 import { v4 as uuidv4 } from "uuid";
-import { del, put } from "@vercel/blob";
+import { del, put, PutBlobResult } from "@vercel/blob";
 
 export async function createPersonel(
   prevState: any,
@@ -103,12 +103,12 @@ export async function updatePersonel(
   await del(item.files);
 
   const profilePhotoID = uuidv4();
-  const profilePhoto = await put(profilePhotoID, photo, {
+  let profilePhoto = await put(profilePhotoID, photo, {
     access: "public",
   });
 
   const fileID = uuidv4();
-  const userFile = await put(fileID, file, {
+  let userFile = await put(fileID, file, {
     access: "public",
   });
 
@@ -124,8 +124,8 @@ export async function updatePersonel(
       gender,
       city,
       district,
-      photo: profilePhoto.url,
-      files: userFile.url,
+      photo: photo ? profilePhoto.url : item.photo,
+      files: file ? userFile.url : item.files,
       createdBy: session.user.id,
     })
     .returning();

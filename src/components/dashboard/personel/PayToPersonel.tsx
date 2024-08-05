@@ -26,6 +26,7 @@ const PayToPersonel = ({ row }: Props) => {
 
       return filteredData;
     },
+    staleTime: 0,
   });
 
   const { data: projectPersonel, refetch: projectPersonelRefecth } = useQuery({
@@ -43,6 +44,7 @@ const PayToPersonel = ({ row }: Props) => {
 
       return filteredData as ProjectPersonelSelect[];
     },
+    staleTime: 0,
   });
 
   const personelDebt = useMemo(

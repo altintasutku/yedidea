@@ -77,6 +77,7 @@ const AddProject = ({ row }: { row: Row<any> }) => {
       const { data } = await axios.get("/api/project");
       return data as ProjectSelect[];
     },
+    staleTime: 0,
   });
 
   const [projectSearchOpen, setProjectSearchOpen] = React.useState(false);

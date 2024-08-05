@@ -64,7 +64,7 @@ const PersonelForm = ({ defaultValues, action = "create", setOpen }: Props) => {
 
   const [profilePhoto, setProfilePhoto] = React.useState<File>();
   const ppInputRef = React.useRef<HTMLInputElement>(null);
-  const [cityId, setCityId] = React.useState<string | undefined>();
+  const [cityId, setCityId] = React.useState<string | undefined>(cities.find((city) => city.name === defaultValues?.city)?.id);
   const filteredDistrict = React.useMemo(
     () => district.filter((d) => d.il_id === cityId),
     [cityId],
