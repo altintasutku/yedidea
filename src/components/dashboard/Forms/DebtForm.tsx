@@ -70,9 +70,20 @@ const DebtForm = ({ defaultValues, action = "create", setOpen }: Props) => {
     }
   }, [state]);
 
+  const handleSubmit = () => {
+    const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
+    document.dispatchEvent(escEvent);
+  };
+
   return (
     <Form {...form}>
-      <form action={formAction} className="space-y-4 p-4">
+      <form
+        action={(e) => {
+          handleSubmit();
+          formAction(e);
+        }}
+        className="space-y-4 p-4"
+      >
         <FormField
           control={form.control}
           name="name"

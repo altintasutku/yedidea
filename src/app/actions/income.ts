@@ -46,8 +46,6 @@ export async function updateIncome(
   const category = formData.get("category") as string;
   const id = formData.get("id") as string;
 
-  console.log(id);
-
   const session = await getAuthSession();
 
   if (!session) {
