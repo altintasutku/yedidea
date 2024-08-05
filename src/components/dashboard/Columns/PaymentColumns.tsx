@@ -76,7 +76,19 @@ export const paymentColumns: ColumnDef<any>[] = [
 
   {
     accessorKey: "createdAt",
-    header: () => <div>Oluşturma Tarihi</div>,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        <div>Oluşturma Tarihi</div>
+        {column.getIsSorted() === "asc" ? (
+          <SortAsc className="ml-2 h-4 w-4" />
+        ) : (
+          <SortDesc className="ml-2 h-4 w-4" />
+        )}
+      </Button>
+    ),
     cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt"));
 
