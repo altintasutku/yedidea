@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { addPayment } from "@/app/actions/payment";
 import { queryClient } from "@/components/Providers";
 
+export const dynamic = "force-dynamic";
+
 const formSchema = z.object({
   paidAmount: z
     .string({ required_error: "ödenen miktar zorunludur" })
