@@ -2,12 +2,13 @@
 
 import { eq } from "drizzle-orm";
 import { join } from "path";
-import { stat, mkdir, writeFile, rm } from "fs/promises";
 import mime from "mime";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { getAuthSession } from "@/lib/auth";
 import { personelTable } from "@/lib/schema/personel";
+import { v4 as uuidv4 } from "uuid";
+import { del, put } from "@vercel/blob";
 
 export async function createPersonel(
   prevState: any,
@@ -32,55 +33,35 @@ export async function createPersonel(
     };
   }
 
-  const relativeUploadDir = `/uploads/${getToday()}`;
-  const uploadDir = join(process.cwd(), "public", relativeUploadDir);
+  const profilePhotoID = uuidv4();
+  const profilePhoto = await put(profilePhotoID, photo, {
+    access: "public",
+  });
 
-  try {
-    await checkDir(uploadDir);
-  } catch (error) {
-    return {
-      message: "Dosya yüklenirken hata oluştu",
-      status: "error",
-    };
-  }
+  const fileID = uuidv4();
+  const userFile = await put(fileID, file, {
+    access: "public",
+  });
 
-  try {
-    const filename = await saveFile(file, uploadDir);
-    const fileUrl = `${relativeUploadDir}/${filename}`;
+  // Save to database
+  await db.insert(personelTable).values({
+    name,
+    phone,
+    age,
+    sector,
+    gender,
+    city,
+    district,
+    photo: profilePhoto.url,
+    files: userFile.url,
+    createdBy: session.user.id,
+  });
 
-    const ppFilename = await saveFile(
-      photo,
-      uploadDir,
-      `pp-${session.user.id}`,
-    );
-    const ppFileUrl = `${relativeUploadDir}/${ppFilename}`;
-
-    // Save to database
-    await db.insert(personelTable).values({
-      name,
-      phone,
-      age,
-      sector,
-      gender,
-      city,
-      district,
-      photo: ppFileUrl,
-      files: fileUrl,
-      createdBy: session.user.id,
-    });
-
-    revalidatePath("/personel");
-    return {
-      message: "Personel başarıyla oluşturuldu",
-      status: "success",
-    };
-  } catch (e) {
-    console.error("Error while trying to upload a file\n", e);
-    return {
-      message: "Dosya yüklenirken hata oluştu",
-      status: "error",
-    };
-  }
+  revalidatePath("/personel");
+  return {
+    message: "Personel başarıyla oluşturuldu",
+    status: "success",
+  };
 }
 
 export async function updatePersonel(
@@ -118,82 +99,42 @@ export async function updatePersonel(
     };
   }
 
-  const relativeUploadDir = `/uploads/${getToday()}`;
-  const uploadDir = join(process.cwd(), "public", relativeUploadDir);
+  await del(item.photo);
+  await del(item.files);
 
-  try {
-    await checkDir(uploadDir);
-  } catch (error) {
-    return {
-      message: "Dosya yüklenirken hata oluştu",
-      status: "error",
-    };
-  }
+  const profilePhotoID = uuidv4();
+  const profilePhoto = await put(profilePhotoID, photo, {
+    access: "public",
+  });
 
-  try {
-    const publicDir = join(process.cwd(), "public");
-    if (file.name && item.files) {
-      console.log(file.name);
-      const filePath = join(publicDir, item.files);
-      await rm(filePath);
-    }
-    if (photo.name && item.photo) {
-      const filePath = join(publicDir, item.photo);
-      await rm(filePath);
-    }
+  const fileID = uuidv4();
+  const userFile = await put(fileID, file, {
+    access: "public",
+  });
 
-    let fileUrl = "";
-    console.log(file);
-    if (file.name) {
-      const filename = await saveFile(file, uploadDir);
-      fileUrl = `${relativeUploadDir}/${filename}`;
-    } else {
-      fileUrl = item.files;
-    }
+  // Save to database
+  const personel = await db
+    .update(personelTable)
+    .set({
+      id: item.id,
+      name,
+      phone,
+      age,
+      sector,
+      gender,
+      city,
+      district,
+      photo: profilePhoto.url,
+      files: userFile.url,
+      createdBy: session.user.id,
+    })
+    .returning();
 
-    let ppFileUrl = "";
-    if (photo.name) {
-      const ppFilename = await saveFile(
-        photo,
-        uploadDir,
-        `pp-${session.user.id}`,
-      );
-      ppFileUrl = `${relativeUploadDir}/${ppFilename}`;
-    } else {
-      ppFileUrl = item.photo;
-    }
-
-    // Save to database
-    const personel = await db
-      .update(personelTable)
-      .set({
-        id: item.id,
-        name,
-        phone,
-        age,
-        sector,
-        gender,
-        city,
-        district,
-        photo: ppFileUrl,
-        files: fileUrl,
-        createdBy: session.user.id,
-      })
-      .returning();
-    console.log(personel);
-
-    revalidatePath("/personel");
-    return {
-      message: "Personel başarıyla oluşturuldu",
-      status: "success",
-    };
-  } catch (e) {
-    console.error("Error while trying to upload a file\n", e);
-    return {
-      message: "Dosya yüklenirken hata oluştu",
-      status: "error",
-    };
-  }
+  revalidatePath("/personel");
+  return {
+    message: "Personel başarıyla oluşturuldu",
+    status: "success",
+  };
 }
 
 export async function deletePersonel(
@@ -201,19 +142,12 @@ export async function deletePersonel(
 ) {
   try {
     items.forEach(async (item) => {
-      await db.delete(personelTable).where(eq(personelTable.id, item.id));
-    });
-    // remove files
-    const publicDir = join(process.cwd(), "public");
-    items.forEach(async (item) => {
-      if (item.files) {
-        const filePath = join(publicDir, item.files);
-        await rm(filePath);
-      }
-      if (item.photo) {
-        const filePath = join(publicDir, item.photo);
-        await rm(filePath);
-      }
+      await db
+        .delete(personelTable)
+        .where(eq(personelTable.id, item.id))
+        .returning();
+      await del(item.photo);
+      await del(item.files);
     });
 
     revalidatePath("/personel");
@@ -242,26 +176,12 @@ export async function updateDates(payload: {
     })
     .where(eq(personelTable.id, payload.personelID));
 
-  revalidatePath("/personel");  
-  
+  revalidatePath("/personel");
+
   return {
     message: "Personel başarıyla guncellendi",
     status: "success",
   };
-}
-
-async function saveFile(file: File, uploadDir: string, filename?: string) {
-  const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-  filename = `${(filename || file.name).replace(
-    /\.[^/.]+$/,
-    "",
-  )}-${uniqueSuffix}.${mime.getExtension(file.type)}`;
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-
-  //@ts-ignore
-  await writeFile(`${uploadDir}/${filename}`, buffer);
-  return filename;
 }
 
 function getToday() {
@@ -272,21 +192,4 @@ function getToday() {
       year: "numeric",
     })
     .replace(/\//g, "-");
-}
-
-async function checkDir(uploadDir: string) {
-  try {
-    await stat(uploadDir);
-  } catch (e: any) {
-    if (e.code === "ENOENT") {
-      // This is for checking the directory is exist (ENOENT : Error No Entry)
-      await mkdir(uploadDir, { recursive: true });
-    } else {
-      console.error(
-        "Error while trying to create directory when uploading a file\n",
-        e,
-      );
-      throw new Error("Dosya yüklenirken hata oluştu");
-    }
-  }
 }

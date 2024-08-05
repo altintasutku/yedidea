@@ -56,7 +56,7 @@ export function getMenuList(pathname: string): Group[] {
           active: pathname.includes("/personel"),
           icon: SquareUserIcon,
           submenus: [],
-          role: ["admin"],
+          role: ["admin", "user"],
         },
         {
           href: "/projeler",
@@ -64,7 +64,7 @@ export function getMenuList(pathname: string): Group[] {
           active: pathname.includes("/projeler"),
           icon: PresentationIcon,
           submenus: [],
-          role: ["admin"],
+          role: ["admin","user"],
         },
         {
           href: "/firma",
@@ -72,7 +72,7 @@ export function getMenuList(pathname: string): Group[] {
           active: pathname.includes("/firma"),
           icon: Building2Icon,
           submenus: [],
-          role: ["admin"],
+          role: ["admin","user"],
         },
         {
           href: "/giderler",
