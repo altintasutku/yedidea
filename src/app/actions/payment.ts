@@ -44,7 +44,7 @@ export const addPayment = async (
   });
 
   revalidatePath("/giderler");
-  revalidatePath("personel");
+  revalidatePath("/personel");
 
   return {
     message: "Personel eklendi",

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { useFormState } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { addPayment } from "@/app/actions/payment";
+import { queryClient } from "@/components/Providers";
 
 const formSchema = z.object({
   paidAmount: z
@@ -44,6 +45,13 @@ const AddPayment = ({ personelId }: Props) => {
     };
     formAction(updatedValues);
   }
+
+  useEffect(() => {
+    if (state.status === "success") {
+      queryClient.refetchQueries({ queryKey: ["payments"] });
+      queryClient.refetchQueries({ queryKey: ["projectPersonel"] });
+    }
+  }, [state.status]);
 
   return (
     <Form {...form}>
