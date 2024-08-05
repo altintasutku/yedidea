@@ -18,7 +18,6 @@ import { useFormState } from "react-dom";
 import { addPersonelToProject } from "@/app/actions/project";
 import { Row } from "@tanstack/react-table";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { ProjectSelect } from "@/lib/schema/project";
 import { Command as CommandPrimitive } from "cmdk";
 import {
@@ -74,7 +73,9 @@ const AddProject = ({ row }: { row: Row<any> }) => {
   const { data: projects, isLoading: isProjectsLoading } = useQuery({
     queryKey: ["projects"],
     queryFn: async () => {
-      const { data } = await axios.get("/api/project");
+      const data = await fetch("/api/project", {
+        cache: "no-store",
+      }).then((res) => res.json());
       return data as ProjectSelect[];
     },
     staleTime: 0,

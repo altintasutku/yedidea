@@ -39,6 +39,8 @@ import CreateIncomeButton from "@/components/incomes/CreateIncomeButton";
 import EditIncomesDialog from "@/components/incomes/EditIncomesDialog";
 import { incomeTable } from "@/lib/schema/income";
 
+export const dynamic = "force-dynamic";
+
 const GelirlerPage = async () => {
   const session = await getAuthSession();
   if (!session) {

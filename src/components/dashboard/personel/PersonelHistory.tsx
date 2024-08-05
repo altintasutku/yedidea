@@ -8,7 +8,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ProjectPersonelSelect, ProjectSelect } from "@/lib/schema/project";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
-import axios from "axios";
 import { Loader2Icon } from "lucide-react";
 import React, { useEffect } from "react";
 
@@ -42,9 +41,10 @@ const PersonelHistory = ({ row }: Props) => {
   } = useQuery({
     queryKey: ["personelHistory", row.original.id],
     queryFn: async () => {
-      const { data } = await axios.get(
+      const data = await fetch(
         `/api/project-personel?personelId=${row.original.id}`,
-      );
+        { cache: "no-store" },
+      ).then((res) => res.json());
       return data as (ProjectPersonelSelect & { project: ProjectSelect })[];
     },
     staleTime: 0,
@@ -52,7 +52,10 @@ const PersonelHistory = ({ row }: Props) => {
 
   const { mutate: removeItem } = useMutation({
     mutationFn: async (values: ProjectPersonelSelect) => {
-      await axios.delete(`/api/project-personel?id=${values.id}`);
+      await fetch(`/api/project-personel?id=${values.id}`, {
+        cache: "no-store",
+        method: "DELETE",
+      });
     },
     onSuccess: () => {
       refetch();
@@ -61,7 +64,9 @@ const PersonelHistory = ({ row }: Props) => {
 
   const { mutate: changeActive } = useMutation({
     mutationFn: async (values: ProjectPersonelSelect) => {
-      await axios.get(`/api/project-personel/change-active?id=${values.id}`);
+      await fetch(`/api/project-personel/change-active?id=${values.id}`, {
+        cache: "no-store",
+      });
     },
     onSuccess: () => {
       refetch();
@@ -79,7 +84,7 @@ const PersonelHistory = ({ row }: Props) => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-center mt-2">Personel Geçmişi</h1>
+      <h1 className="mt-2 text-center text-3xl font-bold">Personel Geçmişi</h1>
       <Input
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}

@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ProjectForm from "../Forms/ProjelerForm";
+import { InferSelectModel } from "drizzle-orm";
+import { projectTable } from "@/lib/schema/project";
+import { firmTable } from "@/lib/schema/firm";
 
 const CreateProjectButton = () => {
   const [open, setOpen] = React.useState(false);

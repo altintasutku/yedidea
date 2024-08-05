@@ -66,20 +66,8 @@ const ProjectForm = ({ defaultValues, action = "create", setOpen }: Props) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["firm"],
     queryFn: async () => {
-      const response = await axios.get("/api/firm");
-      return response.data as InferSelectModel<typeof firmTable>[];
-    },
-    staleTime: 0,
-  });
-  const {
-    data: personels,
-    isLoading: loading,
-    error: personelError,
-  } = useQuery({
-    queryKey: ["personels"],
-    queryFn: async () => {
-      const response = await axios.get("/api/personel");
-      return response.data as InferSelectModel<typeof personelTable>[];
+      const response = await fetch("/api/firm",{cache:"no-store"}).then((res) => res.json());
+      return response as InferSelectModel<typeof firmTable>[];
     },
     staleTime: 0,
   });
