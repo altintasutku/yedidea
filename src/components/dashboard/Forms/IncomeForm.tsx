@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
-import { createIncome } from "@/app/actions/income";
+import { createIncome, updateIncome } from "@/app/actions/income";
 import {
   Select,
   SelectContent,
@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 
 export const incomeSchema = z.object({
+  id: z.string().describe("ID"),
   name: z.string({ required_error: "İsim zorunludur" }).describe("İsim"),
   amount: z.number({ required_error: "Miktar zorunludur" }).describe("Miktar"),
   category: z
@@ -45,15 +46,19 @@ type Props = Readonly<{
 const IncomeForm = ({ defaultValues, action = "create", setOpen }: Props) => {
   const { pending } = useFormStatus();
 
-  const [state, formAction] = useFormState(createIncome, {
-    message: "",
-    status: "idle",
-  });
+  const [state, formAction] = useFormState(
+    action === "create" ? createIncome : updateIncome,
+    {
+      message: "",
+      status: "idle",
+    },
+  );
 
   const form = useForm<IncomeForm>({
     mode: "onBlur",
     resolver: zodResolver(incomeSchema),
     defaultValues: {
+      id: defaultValues?.id || "",
       ...defaultValues,
     },
   });
@@ -128,6 +133,11 @@ const IncomeForm = ({ defaultValues, action = "create", setOpen }: Props) => {
               <FormMessage />
             </FormItem>
           )}
+        />
+        <FormField
+          control={form.control}
+          name="id"
+          render={({ field }) => <input type="hidden" {...field} />}
         />
         <Button type="submit" disabled={pending}>
           {pending ? (

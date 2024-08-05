@@ -38,6 +38,49 @@ export const createExpense = async (
   };
 };
 
+export async function updateExpense(
+  prevState: any,
+  formData: FormData,
+): Promise<FormResponse> {
+  const name = formData.get("name") as string;
+  const amount = formData.get("amount") as string;
+  const category = formData.get("category") as string;
+  const id = formData.get("id") as string;
+
+  const session = await getAuthSession();
+
+  if (!session) {
+    return {
+      message: "Yetkisiz erişim",
+      status: "error",
+    };
+  }
+
+  const expense = await db.query.debtTable.findFirst({
+    where: eq(debtTable.id, id),
+  });
+
+  if (!expense) {
+    return {
+      message: "Gider bulunamadı",
+      status: "error",
+    };
+  }
+
+  await db
+    .update(debtTable)
+    .set({ name, amount, category })
+    .where(eq(debtTable.id, id))
+    .returning();
+
+  revalidatePath("/giderler");
+
+  return {
+    message: "Gider başarıyla güncellendi",
+    status: "success",
+  };
+}
+
 export async function deleteExpense(items: (typeof debtTable.$inferSelect)[]) {
   try {
     items.forEach(async (item) => {

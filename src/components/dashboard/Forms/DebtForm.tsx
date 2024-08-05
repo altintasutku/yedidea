@@ -17,10 +17,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
-import { createExpense } from "@/app/actions/expenses";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { createExpense, updateExpense } from "@/app/actions/expenses";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const debtSchema = z.object({
+  id: z.string().describe("ID"),
   name: z.string({ required_error: "İsim zorunludur" }).describe("İsim"),
   amount: z.number({ required_error: "Miktar zorunludur" }).describe("Miktar"),
   category: z.enum(["Personel", "Proje", "Özel"]).describe("Kategori"),
@@ -37,15 +44,19 @@ type Props = Readonly<{
 const DebtForm = ({ defaultValues, action = "create", setOpen }: Props) => {
   const { pending } = useFormStatus();
 
-  const [state, formAction] = useFormState(createExpense, {
-    message: "",
-    status: "idle",
-  });
+  const [state, formAction] = useFormState(
+    action === "create" ? createExpense : updateExpense,
+    {
+      message: "",
+      status: "idle",
+    },
+  );
 
   const form = useForm<DebtForm>({
     mode: "onBlur",
     resolver: zodResolver(debtSchema),
     defaultValues: {
+      id: defaultValues?.id || "",
       ...defaultValues,
     },
   });
@@ -83,7 +94,15 @@ const DebtForm = ({ defaultValues, action = "create", setOpen }: Props) => {
             <FormItem>
               <FormLabel>Kategori</FormLabel>
               <FormControl>
-                <Select {...field} onValueChange={v => form.setValue("category",v as "Personel" | "Proje" | "Özel")}>
+                <Select
+                  {...field}
+                  onValueChange={(v) =>
+                    form.setValue(
+                      "category",
+                      v as "Personel" | "Proje" | "Özel",
+                    )
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -113,6 +132,12 @@ const DebtForm = ({ defaultValues, action = "create", setOpen }: Props) => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="id"
+          render={({ field }) => <input type="hidden" {...field} />}
+        />
+
         <Button type="submit" disabled={pending}>
           {pending ? (
             <Loader2Icon className="animate-spin" />

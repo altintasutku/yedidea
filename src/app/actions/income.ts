@@ -37,6 +37,50 @@ export const createIncome = async (
   };
 };
 
+export async function updateIncome(
+  prevState: any,
+  formData: FormData,
+): Promise<FormResponse> {
+  const name = formData.get("name") as string;
+  const amount = formData.get("amount") as string;
+  const category = formData.get("category") as string;
+  const id = formData.get("id") as string;
+
+  console.log(id);
+
+  const session = await getAuthSession();
+
+  if (!session) {
+    return {
+      message: "Yetkisiz erişim",
+      status: "error",
+    };
+  }
+
+  const income = await db.query.incomeTable.findFirst({
+    where: eq(incomeTable.id, id),
+  });
+
+  if (!income) {
+    return {
+      message: "Gelir bulunamadı",
+      status: "error",
+    };
+  }
+
+  await db
+    .update(incomeTable)
+    .set({ name, amount, category })
+    .where(eq(incomeTable.id, id));
+
+  revalidatePath("/gelirler");
+
+  return {
+    message: "WPS başarıyla güncellendi",
+    status: "success",
+  };
+}
+
 export async function deleteIncome(items: (typeof incomeTable.$inferSelect)[]) {
   try {
     items.forEach(async (item) => {
