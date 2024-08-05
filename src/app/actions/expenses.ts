@@ -44,6 +44,10 @@ export async function deleteExpense(items: (typeof debtTable.$inferSelect)[]) {
       await db.delete(debtTable).where(eq(debtTable.id, item.id));
     });
 
+    items.forEach(async (item) => {
+      await db.delete(paymentTable).where(eq(paymentTable.debtId, item.id));
+    });
+
     revalidatePath("/giderler");
   } catch (e) {
     console.error(e);
