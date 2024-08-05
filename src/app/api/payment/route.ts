@@ -2,19 +2,17 @@
 
 import { db } from "@/lib/db";
 import { paymentTable } from "@/lib/schema/payment";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
+  const cooki = cookies();
+  console.log(cooki);
+
   try {
     const payments = await db.select().from(paymentTable);
 
-    const response = NextResponse.json(payments);
-
-    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    response.headers.set('Pragma', 'no-cache');
-    response.headers.set('Expires', '0');
-    response.headers.set('Surrogate-Control', 'no-store');
-    return response;
+    return NextResponse.json(payments);
   } catch (e) {
     console.error("Error fetching payments:", e);
 
