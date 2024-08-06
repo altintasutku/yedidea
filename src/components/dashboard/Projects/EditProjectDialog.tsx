@@ -21,7 +21,7 @@ const EditProjectDialog = ({ row }: Props) => {
   return (
     <DialogContent className="max-w-[60dvw]">
       <DialogHeader>
-        <DialogTitle>Personel Kartı</DialogTitle>
+        <DialogTitle>Proje Kartı</DialogTitle>
       </DialogHeader>
 
       <ScrollArea className="flex h-[70dvh] flex-col p-4">
